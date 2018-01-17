@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pente", "Pente\Pente.csproj", "{552D9023-42C5-4F1D-BE83-1C43CE8E1D15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PenteTests", "PenteTests\PenteTests.csproj", "{273DEFC6-CB56-4767-8A67-B4F3742CB050}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{552D9023-42C5-4F1D-BE83-1C43CE8E1D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{552D9023-42C5-4F1D-BE83-1C43CE8E1D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{552D9023-42C5-4F1D-BE83-1C43CE8E1D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{552D9023-42C5-4F1D-BE83-1C43CE8E1D15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{273DEFC6-CB56-4767-8A67-B4F3742CB050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{273DEFC6-CB56-4767-8A67-B4F3742CB050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{273DEFC6-CB56-4767-8A67-B4F3742CB050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{273DEFC6-CB56-4767-8A67-B4F3742CB050}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5356B0B7-D2D8-4272-9CA0-2A921F6030A5}
+	EndGlobalSection
+EndGlobal
