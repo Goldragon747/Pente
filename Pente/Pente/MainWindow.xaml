@@ -5,8 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pente"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Pente" Height="350" Width="525">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!--Menu-->
+        <Label x:Name="Pente" Grid.Row="0"  Grid.ColumnSpan="2" Content="Pente" Background="Cyan"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="DemiBold" FontSize="48"
+               Visibility="Visible"/>
+        <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Visibility="Visible">
+            <Button x:Name="VsPlayer" Width="150" Height="100"
+                    Content="PvPlayer" Click="PvP_Click"/>
+            <Button x:Name="VsComputer" Width="150" Height="100"
+                    Content="PvComputer" Click="PvC_CLick"/>
+        </WrapPanel>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Visibility="Collapsed" >
+            <DockPanel >
+                <TextBlock x:Name="PlayerName" Text="Player Name: "/>
+                <TextBox Width="100"/>
+            </DockPanel>
+            <DockPanel x:Name="PvPNameDockPanel" Margin="0 10 0 10">
+                <TextBlock x:Name="EnemyName" Text="Player 2's Name: "/>
+                <TextBox Width="100"/>
+            </DockPanel>
+            <Button Content="Start Game" Click="Start_Click"/>
+        </StackPanel>
+        <!--GameBoard-->
+        <UniformGrid Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Rows="20" Columns="20" Visibility="Collapsed">
+            
+        </UniformGrid>
+        <!--Control Panel-->
+        <StackPanel Grid.Column="1" Grid.Row="0"  Grid.RowSpan="2" Background="Cornsilk" Visibility="Collapsed">
+            <Label x:Name="TurnLabel" Background="Cyan" Height="50"/>
+            <Label x:Name="ConsoleLabel" Background="DarkCyan" Height="50"/>
+            <StackPanel x:Name="CaptureStackPanel">
+                <Label Content="Captures" HorizontalContentAlignment="Center"/>
+                <DockPanel Margin="0 10 0 10">
+                    <TextBlock Text="Player:"/>
+                    <Label x:Name="PlayerCaptureLabel" Width="50" Background="Aqua"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="Antagonist:"/>
+                    <Label x:Name="EnemyCaptureLabel" Width="50" Background="Aqua"/>
+                </DockPanel>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
