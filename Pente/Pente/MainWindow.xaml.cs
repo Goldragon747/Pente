@@ -29,12 +29,14 @@ namespace Pente
 
         private void PvP_Click(object sender, RoutedEventArgs e)
         {
-
+            PlayerPanel.Visibility = Visibility.Collapsed;
+            NamePanel.Visibility = Visibility.Visible;
         }
 
         private void PvC_CLick(object sender, RoutedEventArgs e)
         {
-
+            PlayerPanel.Visibility = Visibility.Collapsed;
+            NamePanel.Visibility = Visibility.Visible;
         }
 
         private void Start_Click(object sender, RoutedEventArgs e)

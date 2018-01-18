@@ -16,27 +16,27 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <!--Menu-->
-        <Label x:Name="Pente" Grid.Row="0"  Grid.ColumnSpan="2" Content="Pente" Background="Cyan"
+        <Label x:Name="PenteLabel" Grid.Row="0"  Grid.ColumnSpan="2" Content="Pente" Background="Cyan"
                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="DemiBold" FontSize="48"
                Visibility="Visible"/>
-        <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+        <WrapPanel x:Name="PlayerPanel" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Visibility="Visible">
-            <Button x:Name="VsPlayer" Width="150" Height="100"
+            <Button x:Name="VsPlayerBtn" Width="150" Height="100"
                     Content="PvPlayer" Click="PvP_Click"/>
-            <Button x:Name="VsComputer" Width="150" Height="100"
+            <Button x:Name="VsComputerBtn" Width="150" Height="100"
                     Content="PvComputer" Click="PvC_CLick"/>
         </WrapPanel>
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+        <StackPanel x:Name="NamePanel" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Visibility="Collapsed" >
             <DockPanel >
-                <TextBlock x:Name="PlayerName" Text="Player Name: "/>
+                <TextBlock x:Name="PlayerNameBlock" Text="Player Name: "/>
                 <TextBox Width="100"/>
             </DockPanel>
             <DockPanel x:Name="PvPNameDockPanel" Margin="0 10 0 10">
-                <TextBlock x:Name="EnemyName" Text="Player 2's Name: "/>
+                <TextBlock x:Name="EnemyNameBlock" Text="Player 2's Name: "/>
                 <TextBox Width="100"/>
             </DockPanel>
-            <Button Content="Start Game" Click="Start_Click"/>
+            <Button x:Name="StartBtn" Content="Start Game" Click="Start_Click"/>
         </StackPanel>
         <!--GameBoard-->
         <UniformGrid Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Rows="20" Columns="20" Visibility="Collapsed">
