@@ -26,5 +26,20 @@ namespace Pente
         {
             InitializeComponent();
         }
+
+        private void PvP_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PvC_CLick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
