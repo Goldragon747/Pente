@@ -22,25 +22,39 @@ namespace Pente
     // We can use outside libraries to help with unit testing; automated clicks and things
     public partial class MainWindow : Window
     {
+        public Button VsComputerBtnProp
+        {
+            get { return VsComputerBtn; }
+            set { VsComputerBtn = value; }
+        }
+        public Button VsPlayerBtnProp
+        {
+            get { return VsPlayerBtn; }
+            set { VsPlayerBtn = value; }
+        }
+        public WrapPanel PlayerPanelProp {
+            get { return PlayerPanel; }
+            set { PlayerPanel = value; }
+        }
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void PvP_Click(object sender, RoutedEventArgs e)
+        public void PvP_Click(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Visible;
         }
 
-        private void PvC_CLick(object sender, RoutedEventArgs e)
+        public void PvC_Click(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
             PvPNameDockPanel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Visible;
         }
 
-        private void Start_Click(object sender, RoutedEventArgs e)
+        public void Start_Click(object sender, RoutedEventArgs e)
         {
             PenteLabel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Collapsed;

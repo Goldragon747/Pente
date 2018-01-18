@@ -24,7 +24,7 @@
             <Button x:Name="VsPlayerBtn" Width="150" Height="100"
                     Content="PvPlayer" Click="PvP_Click"/>
             <Button x:Name="VsComputerBtn" Width="150" Height="100"
-                    Content="PvComputer" Click="PvC_CLick"/>
+                    Content="PvComputer" Click="PvC_Click"/>
         </WrapPanel>
         <StackPanel x:Name="NamePanel" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Visibility="Collapsed" >

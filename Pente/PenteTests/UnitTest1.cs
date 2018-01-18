@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pente;
-
+using System.Windows;
 
 namespace PenteTests
 {
@@ -11,8 +10,9 @@ namespace PenteTests
         [TestMethod]
         public void VisibliltyAfterPvPClickedTest()
         {
-            MainWindow mw = new MainWindow();
-            
+            MainWindow main = new MainWindow();
+            main.PvC_Click(null,null);
+            Assert.IsTrue(main.PlayerPanelProp.Visibility == Visibility.Collapsed);
         }
     }
 }
