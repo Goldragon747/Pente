@@ -36,12 +36,20 @@ namespace Pente
         private void PvC_CLick(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
+            PvPNameDockPanel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Visible;
         }
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
+            PenteLabel.Visibility = Visibility.Collapsed;
+            NamePanel.Visibility = Visibility.Collapsed;
+            PNameBlock.Text = PlayerNameBox.Text;
+            if (!string.IsNullOrEmpty(EnemyNameBox.Text))
+                ENameBlock.Text = EnemyNameBox.Text;
 
+            ControlPanel.Visibility = Visibility.Visible;
+            GameBoardGrid.Visibility = Visibility.Visible;
         }
     }
 }
