@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Pente;
+
 
 namespace PenteTests
 {
@@ -9,7 +11,8 @@ namespace PenteTests
         [TestMethod]
         public void VisibliltyAfterPvPClickedTest()
         {
-
+            MainWindow mw = new MainWindow();
+            
         }
     }
 }
