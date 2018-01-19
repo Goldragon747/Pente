@@ -41,7 +41,7 @@ namespace Pente
         {
             InitializeComponent();
         }
-
+        public int tileSize = 39;
         public void PvP_Click(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
@@ -75,16 +75,16 @@ namespace Pente
 
         public void BoardBackground()
         {
-            for(int i = 0; i < 19; i++)
+            for(int i = 0; i < tileSize; i++)
             {
-                for(int j = 0; j < 19; j++)
+                for(int j = 0; j < tileSize; j++)
                 {
                     Button b = new Button();
                     b.BorderThickness = new Thickness(0);
                     ImageBrush imgBrush = new ImageBrush();
                     imgBrush.ImageSource =
                     new BitmapImage(
-                        new Uri(@"pack://application:,,,/Pente;component/Images/white.png", UriKind.RelativeOrAbsolute)
+                        new Uri(@"pack://application:,,,/Pente;component/Images/black2.png", UriKind.RelativeOrAbsolute)
                     );
                     b.Background = imgBrush;
 
