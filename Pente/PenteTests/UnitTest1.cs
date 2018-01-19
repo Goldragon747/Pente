@@ -34,7 +34,7 @@ namespace PenteTests
         {
             MainWindow main = new MainWindow();
             main.Start_Click(null, null);
-            Assert.IsTrue(main.PenteLabel.Visibility == Visibility.Collapsed);
+            Assert.IsTrue(main.PenteLabelProp.Visibility == Visibility.Collapsed);
         }
         [TestMethod]
         public void NamePanelVisibilityAfterStartClickedTest()
