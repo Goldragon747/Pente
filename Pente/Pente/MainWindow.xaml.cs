@@ -60,8 +60,13 @@ namespace Pente
             PenteLabel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Collapsed;
             PNameBlock.Text = PlayerNameBox.Text;
+            if (string.IsNullOrEmpty(PlayerNameBox.Text))
+                PNameBlock.Text = "Player 1:";
+
             if (!string.IsNullOrEmpty(EnemyNameBox.Text))
                 ENameBlock.Text = EnemyNameBox.Text;
+            else
+                ENameBlock.Text = "Player 2:";
 
             ControlPanel.Visibility = Visibility.Visible;
             GameBoardGrid.Visibility = Visibility.Visible;
@@ -75,7 +80,13 @@ namespace Pente
                 for(int j = 0; j < 19; j++)
                 {
                     Button b = new Button();
-                    b.Background = new ImageBrush(new BitmapImage(new Uri(@"Images\tile.gif", UriKind.Absolute)));          
+                    //b.Background = new ImageBrush(new BitmapImage(new Uri(@"Images\tile.gif", UriKind.Absolute))); 
+                    ImageBrush ib = new ImageBrush();
+                    ib.ImageSource =
+                    new BitmapImage(
+                        new Uri(@"Images\black.png", UriKind.Relative)
+                    );
+                    b.Background = ib;
                     GameBoardGrid.Children.Add(b);
                 }
 

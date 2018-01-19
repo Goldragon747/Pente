@@ -29,7 +29,7 @@
         <StackPanel x:Name="NamePanel" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Visibility="Collapsed" >
             <DockPanel Margin="0 0 0 10">
-                <TextBlock Text="Player Name: "/>
+                <TextBlock Text="Player 1's Name: "/>
                 <TextBox x:Name="PlayerNameBox" Width="100"/>
             </DockPanel>
             <DockPanel x:Name="PvPNameDockPanel" Margin="0 0 0 10">
