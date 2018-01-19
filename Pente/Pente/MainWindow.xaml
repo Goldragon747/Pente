@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pente"
         mc:Ignorable="d"
-        Title="Pente" Height="350" Width="525">
+        Title="Pente" WindowState="Maximized" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
@@ -41,7 +41,7 @@
         <!--GameBoard-->
         <Grid Grid.RowSpan="2" Grid.ColumnSpan="1">
         <UniformGrid x:Name="GameBoardGrid" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Visibility="Collapsed"
-                     MaxHeight="600" MaxWidth="600"/>
+                     Height="650" Width="650" Background="Black"/>
             
         </Grid>
         <!--Control Panel-->

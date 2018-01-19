@@ -84,7 +84,7 @@ namespace Pente
                     ImageBrush imgBrush = new ImageBrush();
                     imgBrush.ImageSource =
                     new BitmapImage(
-                        new Uri(@"pack://application:,,,/Pente;component/Images/tile.png", UriKind.RelativeOrAbsolute)
+                        new Uri(@"pack://application:,,,/Pente;component/Images/white.png", UriKind.RelativeOrAbsolute)
                     );
                     b.Background = imgBrush;
 
