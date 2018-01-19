@@ -39,9 +39,11 @@
             <Button x:Name="StartBtn" Content="Start Game" Click="Start_Click"/>
         </StackPanel>
         <!--GameBoard-->
-        <UniformGrid x:Name="GameBoardGrid" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Visibility="Collapsed">
+        <Grid Grid.RowSpan="2" Grid.ColumnSpan="1">
+        <UniformGrid x:Name="GameBoardGrid" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Visibility="Collapsed"
+                     MaxHeight="600" MaxWidth="600"/>
             
-        </UniformGrid>
+        </Grid>
         <!--Control Panel-->
         <StackPanel x:Name="ControlPanel" Grid.Column="1" Grid.Row="0"  Grid.RowSpan="2" Background="Cornsilk" Visibility="Collapsed">
             <Label x:Name="TurnLabel" Background="Cyan" Height="50"
