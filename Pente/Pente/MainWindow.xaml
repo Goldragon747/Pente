@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pente"
         mc:Ignorable="d"
-        Title="Pente" Height="350" Width="525">
+        Title="Pente" WindowState="Maximized" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
@@ -39,9 +39,15 @@
             <Button x:Name="StartBtn" Content="Start Game" Click="Start_Click"/>
         </StackPanel>
         <!--GameBoard-->
-        <UniformGrid x:Name="GameBoardGrid" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Visibility="Collapsed">
-            
-        </UniformGrid>
+        <Grid Grid.RowSpan="2" Grid.ColumnSpan="1" >
+            <Border BorderBrush="Black" BorderThickness="3"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    >
+                
+            <UniformGrid x:Name="GameBoardGrid" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Visibility="Collapsed"
+                     Height="650" Width="650"/>
+            </Border>
+        </Grid>
         <!--Control Panel-->
         <StackPanel x:Name="ControlPanel" Grid.Column="1" Grid.Row="0"  Grid.RowSpan="2" Background="Cornsilk" Visibility="Collapsed">
             <Label x:Name="TurnLabel" Background="Cyan" Height="50"

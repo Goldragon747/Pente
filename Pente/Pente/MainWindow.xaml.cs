@@ -80,13 +80,14 @@ namespace Pente
                 for(int j = 0; j < 19; j++)
                 {
                     Button b = new Button();
-                    //b.Background = new ImageBrush(new BitmapImage(new Uri(@"Images\tile.gif", UriKind.Absolute))); 
-                    ImageBrush ib = new ImageBrush();
-                    ib.ImageSource =
+                    b.BorderThickness = new Thickness(0);
+                    ImageBrush imgBrush = new ImageBrush();
+                    imgBrush.ImageSource =
                     new BitmapImage(
-                        new Uri(@"Images\black.png", UriKind.Relative)
+                        new Uri(@"pack://application:,,,/Pente;component/Images/white.png", UriKind.RelativeOrAbsolute)
                     );
-                    b.Background = ib;
+                    b.Background = imgBrush;
+
                     GameBoardGrid.Children.Add(b);
                 }
 
