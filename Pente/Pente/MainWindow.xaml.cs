@@ -36,6 +36,7 @@ namespace Pente
             get { return PlayerPanel; }
             set { PlayerPanel = value; }
         }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -64,6 +65,21 @@ namespace Pente
 
             ControlPanel.Visibility = Visibility.Visible;
             GameBoardGrid.Visibility = Visibility.Visible;
+            BoardBackground();
+        }
+
+        public void BoardBackground()
+        {
+            for(int i = 0; i < 19; i++)
+            {
+                for(int j = 0; j < 19; j++)
+                {
+                    Button b = new Button();
+                    b.Background = new ImageBrush(new BitmapImage(new Uri(@"Images\tile.gif", UriKind.Absolute)));          
+                    GameBoardGrid.Children.Add(b);
+                }
+
+            }
         }
     }
 }
