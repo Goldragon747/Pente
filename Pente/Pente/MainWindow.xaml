@@ -39,7 +39,7 @@
             <Button x:Name="StartBtn" Content="Start Game" Click="Start_Click"/>
         </StackPanel>
         <!--GameBoard-->
-        <UniformGrid x:Name="GameBoardGrid" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Rows="20" Columns="20" Visibility="Collapsed">
+        <UniformGrid x:Name="GameBoardGrid" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Visibility="Collapsed">
             
         </UniformGrid>
         <!--Control Panel-->
