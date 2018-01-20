@@ -58,9 +58,18 @@ namespace PenteTests
             Assert.IsTrue(main.GameBoardGridProp.Visibility == Visibility.Visible);
         }
         [TestMethod]
-        public void PNameBlockTextChangedAfterStartClicked()
+        public void PNameBlockTextChangedAfterStartClickedNullInput()
         {
             MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            Assert.IsTrue(main.PNameBlockProp.Text == "Player 1:");
+        }
+        [TestMethod]
+        public void PNameBlockTextChangedAfterStartClickedGoodInput()
+        {
+            MainWindow main = new MainWindow();
+            
+            main.PlayerNameBoxProp.Text = "Gabe";
             main.Start_Click(null, null);
             Assert.IsTrue(main.PNameBlockProp.Text == main.PlayerNameBoxProp.Text);
         }
@@ -69,7 +78,7 @@ namespace PenteTests
         {
             MainWindow main = new MainWindow();
             main.PvC_Click(null, null);
-            Assert.IsTrue(main.PVPNameDockPanelProp.Visibility == Visibility.Collapsed);
+            Assert.IsTrue(main.PvPNameDockPanelProp.Visibility == Visibility.Collapsed);
         }
         [TestMethod]
         public void NamePanelPropVisibilityAfterPvCClickedTest()

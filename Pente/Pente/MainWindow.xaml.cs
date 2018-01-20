@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -22,6 +23,8 @@ namespace Pente
     // We can use outside libraries to help with unit testing; automated clicks and things
     public partial class MainWindow : Window
     {
+        public bool isPlayer1Turn = true;
+        public bool computerEnabled = false;
         public Button VsComputerBtnProp
         {
             get { return VsComputerBtn; }
@@ -36,7 +39,52 @@ namespace Pente
             get { return PlayerPanel; }
             set { PlayerPanel = value; }
         }
+        public StackPanel NamePanelProp
+        {
+            get { return NamePanel; }
+            set { NamePanel = value; }
+        }
+        public Label PenteLabelProp
+        {
+            get { return PenteLabel; }
+            set { PenteLabel = value; }
+        }
 
+        public StackPanel ControlPanelProp
+        {
+            get { return ControlPanel; }
+            set { ControlPanel = value; }
+        }
+        public UniformGrid GameBoardGridProp
+        {
+            get { return GameBoardGrid; }
+            set { GameBoardGrid = value; }
+        }
+        public TextBlock PNameBlockProp
+        {
+            get { return PNameBlock; }
+            set { PNameBlock = value; }
+        }
+        public DockPanel PvPNameDockPanelProp
+        {
+            get { return PvPNameDockPanel; }
+            set { PvPNameDockPanel = value; }
+        }
+        public TextBox PlayerNameBoxProp
+        {
+            get { return PlayerNameBox; }
+            set { PlayerNameBox = value; }
+        }
+        public Label TurnLabelProp
+        {
+            get { return TurnLabel; }
+            set { TurnLabel = value; }
+        }
+        public TextBlock ENameBlockProp
+        {
+            get { return ENameBlock; }
+            set { ENameBlock = value; }
+        }
         public MainWindow()
         {
             InitializeComponent();
@@ -92,6 +140,12 @@ namespace Pente
                 }
 
             }
+        }
+        // M & G
+        public void SwitchPlayer()
+        {
+            isPlayer1Turn = isPlayer1Turn ? false : true;
+            TurnLabel.Content = isPlayer1Turn ? PNameBlock.Text + "'s Turn" : ENameBlock.Text + "'s Turn";
         }
     }
 }
