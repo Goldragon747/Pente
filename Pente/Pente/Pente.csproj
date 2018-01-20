@@ -99,7 +99,6 @@
   <ItemGroup>
     <Resource Include="Images\black.png" />
 	</ItemGroup>
-	</ItemGroup>
   <ItemGroup>
     <Resource Include="Images\black2.png" />
   </ItemGroup>
