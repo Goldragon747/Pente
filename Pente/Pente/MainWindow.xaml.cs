@@ -25,6 +25,11 @@ namespace Pente
     {
         public bool isPlayer1Turn = true;
         public bool computerEnabled = false;
+        public int tileSize = 11;
+        public Button[,] board;
+        ImageBrush imgBrushTile = new ImageBrush();
+        ImageBrush imgBrushBlack = new ImageBrush();
+        ImageBrush imgBrushWhite = new ImageBrush();
         public Button VsComputerBtnProp
         {
             get { return VsComputerBtn; }
@@ -89,7 +94,7 @@ namespace Pente
         {
             InitializeComponent();
         }
-        public int tileSize = 39;
+        
         public void PvP_Click(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
@@ -108,6 +113,9 @@ namespace Pente
             PenteLabel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Collapsed;
             PNameBlock.Text = PlayerNameBox.Text;
+            imgBrushTile.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/tile.png", UriKind.RelativeOrAbsolute));
+            imgBrushBlack.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/black2.png", UriKind.RelativeOrAbsolute));
+            imgBrushWhite.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/white2.png", UriKind.RelativeOrAbsolute));
             if (string.IsNullOrEmpty(PlayerNameBox.Text))
                 PNameBlock.Text = "Player 1:";
 
@@ -119,24 +127,30 @@ namespace Pente
             ControlPanel.Visibility = Visibility.Visible;
             GameBoardGrid.Visibility = Visibility.Visible;
             BoardBackground();
+            InitalSetup();
         }
+        public void InitalSetup()
+        {
+            int middle = ((tileSize - 1) / 2);
+            SwitchButtonBackground(board[middle, middle]);
+            SwitchPlayer();
+        }
+
 
         public void BoardBackground()
         {
+            board = new Button[tileSize,tileSize];
             for(int i = 0; i < tileSize; i++)
             {
                 for(int j = 0; j < tileSize; j++)
                 {
                     Button b = new Button();
                     b.BorderThickness = new Thickness(0);
-                    ImageBrush imgBrush = new ImageBrush();
-                    imgBrush.ImageSource =
-                    new BitmapImage(
-                        new Uri(@"pack://application:,,,/Pente;component/Images/black2.png", UriKind.RelativeOrAbsolute)
-                    );
-                    b.Background = imgBrush;
+                    b.Click += BoardClicked;
+                    b.Background = imgBrushTile;
 
                     GameBoardGrid.Children.Add(b);
+                    board[i, j] = b;
                 }
 
             }
@@ -146,6 +160,24 @@ namespace Pente
         {
             isPlayer1Turn = isPlayer1Turn ? false : true;
             TurnLabel.Content = isPlayer1Turn ? PNameBlock.Text + "'s Turn" : ENameBlock.Text + "'s Turn";
+        }
+
+        public void SwitchButtonBackground(Button sender)
+        {
+            ImageBrush imgBrush = new ImageBrush();
+            imgBrush = isPlayer1Turn ? imgBrushBlack :
+                                       imgBrushWhite;
+            sender.Background = imgBrush;
+        }
+
+        public void BoardClicked(object sender, RoutedEventArgs e)
+        {
+            Button b = (Button)sender;
+            if (b.Background == imgBrushTile)
+            {
+                SwitchButtonBackground(b);
+                SwitchPlayer();
+            }
         }
     }
 }
