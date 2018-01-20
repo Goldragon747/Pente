@@ -98,14 +98,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\black.png" />
+	</ItemGroup>
+	</ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\black2.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\tile.png" />
-    <Resource Include="Images\white.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\black2.png" />
     <Resource Include="Images\white2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\white.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

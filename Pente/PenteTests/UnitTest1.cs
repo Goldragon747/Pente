@@ -89,6 +89,44 @@ namespace PenteTests
         }
 
 
-        ///////////////////////////////////BEN AND ELIZABETH//////////////////
+        ///////////////////////////////////BEN//////////////////
+        [TestMethod]
+        public void ChangeIsPlayer1TurntoFalse()
+        {
+            bool result = true;
+            MainWindow main = new MainWindow();
+            main.isPlayer1Turn = false;
+            main.SwitchPlayer();
+            Assert.AreEqual(result, main.isPlayer1Turn);
+        }
+
+        [TestMethod]
+        public void ChangeIsPlayer1TurntoTrue()
+        {
+            bool result = false;
+            MainWindow main = new MainWindow();
+            main.isPlayer1Turn = true;
+            main.SwitchPlayer();
+            Assert.AreEqual(result, main.isPlayer1Turn);
+        }
+        [TestMethod]
+        public void ChangePlayerTurnLabeltoPlayer2Name()
+        {
+            string result = "Player 2:'s Turn";
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            main.SwitchPlayer();
+            Assert.AreEqual(result, main.TurnLabelProp.Content);
+        }
+        [TestMethod]
+        public void ChangePlayerTurnLabeltoPlayer1Name()
+        {
+            string result = "Player 1:'s Turn";
+            MainWindow main = new MainWindow();
+            main.isPlayer1Turn = false;
+            main.Start_Click(null, null);
+            main.SwitchPlayer();
+            Assert.AreEqual(result, main.TurnLabelProp.Content);
+        }
     }
 }
