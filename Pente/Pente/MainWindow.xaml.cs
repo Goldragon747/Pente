@@ -26,10 +26,23 @@ namespace Pente
         public bool isPlayer1Turn = true;
         public bool computerEnabled = false;
         public int tileSize = 11;
+        public int player1TriaCount = 0;
+        public int player1TesseraCount = 0;
+        public int player2TriaCount = 0;
+        public int player2TesseraCount = 0;
+        public int tempPlayer1TriaCount = 0;
+        public int tempPlayer1TesseraCount = 0;
+        public int tempPlayer2TriaCount = 0;
+        public int tempPlayer2TesseraCount = 0;
+        public int player1Win = 0;
+        public int player2Win = 0;
+        public int player1Captures = 0;
+        public int player2Captures = 0;
         public Button[,] board;
-        ImageBrush imgBrushTile = new ImageBrush();
-        ImageBrush imgBrushBlack = new ImageBrush();
-        ImageBrush imgBrushWhite = new ImageBrush();
+        public ImageBrush imgBrushTile = new ImageBrush();
+        public ImageBrush imgBrushBlack = new ImageBrush();
+        public ImageBrush imgBrushWhite = new ImageBrush();
+        public ImageBrush currentPlayerBrush;
         public Button VsComputerBtnProp
         {
             get { return VsComputerBtn; }
@@ -113,9 +126,10 @@ namespace Pente
             PenteLabel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Collapsed;
             PNameBlock.Text = PlayerNameBox.Text;
-            imgBrushTile.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/tile.png", UriKind.RelativeOrAbsolute));
-            imgBrushBlack.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/black2.png", UriKind.RelativeOrAbsolute));
-            imgBrushWhite.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/white2.png", UriKind.RelativeOrAbsolute));
+            PlayBoardBackground.Visibility = Visibility.Visible;
+            imgBrushTile.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/tile4.png", UriKind.RelativeOrAbsolute));
+            imgBrushBlack.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/black4.png", UriKind.RelativeOrAbsolute));
+            imgBrushWhite.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/white4.png", UriKind.RelativeOrAbsolute));
             if (string.IsNullOrEmpty(PlayerNameBox.Text))
                 PNameBlock.Text = "Player 1:";
 
@@ -129,6 +143,7 @@ namespace Pente
             BoardBackground();
             InitalSetup();
         }
+        // M & B
         public void InitalSetup()
         {
             int middle = ((tileSize - 1) / 2);
@@ -150,18 +165,19 @@ namespace Pente
                     b.Background = imgBrushTile;
 
                     GameBoardGrid.Children.Add(b);
-                    board[i, j] = b;
+                    board[j, i] = b;
                 }
 
             }
         }
-        // M & G
+        // G & M
         public void SwitchPlayer()
         {
             isPlayer1Turn = isPlayer1Turn ? false : true;
             TurnLabel.Content = isPlayer1Turn ? PNameBlock.Text + "'s Turn" : ENameBlock.Text + "'s Turn";
+            currentPlayerBrush = isPlayer1Turn ? imgBrushBlack : imgBrushWhite;
         }
-
+        // G & M
         public void SwitchButtonBackground(Button sender)
         {
             ImageBrush imgBrush = new ImageBrush();
@@ -169,14 +185,235 @@ namespace Pente
                                        imgBrushWhite;
             sender.Background = imgBrush;
         }
-
+        // G & M
         public void BoardClicked(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
             if (b.Background == imgBrushTile)
             {
                 SwitchButtonBackground(b);
+               
+                for (int i = 0; i < tileSize; i++)
+                {
+                    for (int j = 0; j < tileSize; j++)
+                    {
+                        if(board[i,j] == b)
+                            CheckForCapture(i, j);
+                        if (board[i,j].Background == currentPlayerBrush)
+                        {
+                            CheckForSpecialConditions(i, j, 0, 0);
+                        }
+                    }
+                }
+                AnnounceNewConditions();
                 SwitchPlayer();
+            }
+        }
+        // G & M
+        public void CheckForCapture(int x, int y)
+        {
+            ImageBrush enemyBrush = isPlayer1Turn ? imgBrushWhite : imgBrushBlack;
+            if (CheckIfInBounds(x - 3, y - 3) && 
+               board[x - 3, y - 3].Background == currentPlayerBrush &&
+               board[x - 2, y - 2].Background == enemyBrush &&
+               board[x - 1, y - 1].Background == enemyBrush)
+            {
+                Capture(x - 1, y - 1, x - 2, y - 2);
+            }
+            if (CheckIfInBounds(x, y - 3) &&
+               board[x, y - 3].Background == currentPlayerBrush &&
+               board[x, y - 2].Background == enemyBrush &&
+               board[x, y - 1].Background == enemyBrush)
+            {
+                Capture(x, y - 1, x, y - 2);
+            }
+            if (CheckIfInBounds(x + 3, y - 3) &&
+               board[x + 3, y - 3].Background == currentPlayerBrush &&
+               board[x + 2, y - 2].Background == enemyBrush &&
+               board[x + 1, y - 1].Background == enemyBrush)
+            {
+                Capture(x + 1, y - 1, x + 2, y - 2);
+            }
+            if (CheckIfInBounds(x + 3, y) &&
+               board[x + 3, y].Background == currentPlayerBrush &&
+               board[x + 2, y].Background == enemyBrush &&
+               board[x + 1, y].Background == enemyBrush)
+            {
+                Capture(x + 1, y, x + 2, y);
+            }
+            if (CheckIfInBounds(x + 3, y + 3) &&
+               board[x + 3, y + 3].Background == currentPlayerBrush &&
+               board[x + 2, y + 2].Background == enemyBrush &&
+               board[x + 1, y + 1].Background == enemyBrush)
+            {
+                Capture(x + 1, y + 1, x + 2, y + 2);
+            }
+            if (CheckIfInBounds(x, y - 3) &&
+               board[x, y - 3].Background == currentPlayerBrush &&
+               board[x, y - 2].Background == enemyBrush &&
+               board[x, y - 1].Background == enemyBrush)
+            {
+                Capture(x, y - 1, x, y - 2);
+            }
+            if (CheckIfInBounds(x - 3, y + 3) &&
+               board[x - 3, y + 3].Background == currentPlayerBrush &&
+               board[x - 2, y + 2].Background == enemyBrush &&
+               board[x - 1, y + 1].Background == enemyBrush)
+            {
+                Capture(x - 1, y + 1, x - 2, y + 2);
+            }
+            if (CheckIfInBounds(x - 3, y) &&
+               board[x - 3, y].Background == currentPlayerBrush &&
+               board[x - 2, y].Background == enemyBrush &&
+               board[x - 1, y].Background == enemyBrush)
+            {
+                Capture(x - 1, y, x - 2, y);
+            }
+        }
+        // G & M
+        private void Capture(int x1, int y1, int x2, int y2)
+        {
+            if (isPlayer1Turn)
+                player1Captures++;
+            else
+                player2Captures++;
+            board[x1, y1].Background = imgBrushTile;
+            board[x2, y2].Background = imgBrushTile;
+        }
+
+        // G & M
+        public void AnnounceNewConditions()
+        {
+            if(player1Win > 0)
+            {
+                MessageBox.Show("PLAYER 1 WINS");
+            } else if(player2Win > 0)
+            {
+                MessageBox.Show("PLAYER 2 WINS");
+            } else
+            {
+                if (isPlayer1Turn)
+                {
+                    if(tempPlayer1TesseraCount > player1TesseraCount)
+                    {
+                        MessageBox.Show("PLAYER 1 TESSERA");
+                        player1TesseraCount = tempPlayer1TesseraCount;
+                    }
+                    else if(tempPlayer1TriaCount > player1TriaCount)
+                    {
+                        MessageBox.Show("PLAYER 1 TRIA");
+                    }
+                    if (tempPlayer1TriaCount > player1TriaCount)
+                    {
+                        player1TriaCount = tempPlayer1TriaCount;
+                    }
+                    tempPlayer1TriaCount = 0;
+                    tempPlayer1TesseraCount = 0;
+                } else
+                {
+                    if (tempPlayer2TesseraCount > player2TesseraCount)
+                    {
+                        player2TesseraCount = tempPlayer2TesseraCount;
+                        tempPlayer2TesseraCount = 0;
+                        MessageBox.Show("PLAYER 2 TESSERA");
+                    }
+                    else if (tempPlayer2TriaCount > player2TriaCount)
+                    {
+                        player2TriaCount = tempPlayer2TriaCount;
+                        tempPlayer2TriaCount = 0;
+                        MessageBox.Show("PLAYER 2 TRIA");
+                    }
+                }
+            }
+        }
+
+        // G & M
+
+        public bool CheckIfInBounds(int x, int y)
+        {
+            if (x < board.GetLowerBound(0) ||
+                x > board.GetUpperBound(0) ||
+                y < board.GetLowerBound(1) ||
+                y > board.GetUpperBound(1)) return false;
+            return true;
+        }
+        // G & M
+
+        //  Direction Values for 2D array 0 = no direction
+        //  1 | 2 | 3
+        //  8 | 0 | 4
+        //  7 | 6 | 5
+        public void CheckForSpecialConditions(int x, int y, int direction, int countInARow)
+        {
+            
+            if (countInARow == 2)
+            {
+                if (isPlayer1Turn)
+                    tempPlayer1TriaCount++;
+                else
+                    tempPlayer2TriaCount++;
+            }
+            if(countInARow == 3)
+            {
+                if (isPlayer1Turn)
+                    tempPlayer1TesseraCount++;
+                else
+                    tempPlayer2TesseraCount++;
+            }
+            if(countInARow == 4)
+            {
+                if (isPlayer1Turn)
+                    player1Win++;
+                else
+                    player2Win++;
+            }
+            if((direction == 0 || direction == 1) && CheckIfInBounds(x - 1, y - 1) && board[x - 1,y - 1].Background == currentPlayerBrush)
+            {
+                if (direction == 0)
+                    countInARow = 0;
+                CheckForSpecialConditions(x - 1, y - 1, 1, ++countInARow);
+            }
+            if ((direction == 0 || direction == 2) && CheckIfInBounds(x, y - 1) && board[x, y - 1].Background == currentPlayerBrush)
+            {
+                if (direction == 0)
+                    countInARow = 0;
+                CheckForSpecialConditions(x, y - 1, 2, ++countInARow);
+            }
+            if ((direction == 0 || direction == 3) && CheckIfInBounds(x + 1, y - 1) && board[x + 1, y - 1].Background == currentPlayerBrush)
+            {
+                if (direction == 0)
+                    countInARow = 0;
+                CheckForSpecialConditions(x + 1, y - 1, 3, ++countInARow);
+            }
+            if ((direction == 0 || direction == 4) && CheckIfInBounds(x + 1, y) && board[x + 1, y].Background == currentPlayerBrush)
+            {
+                if (direction == 0)
+                    countInARow = 0;
+                CheckForSpecialConditions(x + 1, y, 4, ++countInARow);
+            }
+            if ((direction == 0 || direction == 5) && CheckIfInBounds(x + 1, y + 1) && board[x + 1, y + 1].Background == currentPlayerBrush)
+            {
+                if (direction == 0)
+                    countInARow = 0;
+                CheckForSpecialConditions(x + 1, y + 1, 5, ++countInARow);
+            }
+            if ((direction == 0 || direction == 6) && CheckIfInBounds(x, y + 1) && board[x, y + 1].Background == currentPlayerBrush)
+            {
+                if (direction == 0)
+                    countInARow = 0;
+                CheckForSpecialConditions(x, y + 1, 6, ++countInARow);
+            }
+            if ((direction == 0 || direction == 7) && CheckIfInBounds(x - 1, y + 1) && board[x - 1, y + 1].Background == currentPlayerBrush)
+            {
+                if (direction == 0)
+                    countInARow = 0;
+                CheckForSpecialConditions(x - 1, y + 1, 7, ++countInARow);
+            }
+            if ((direction == 0 || direction == 8) && CheckIfInBounds(x - 1, y) && board[x - 1, y].Background == currentPlayerBrush)
+            {
+                if (direction == 0)
+                    countInARow = 0;
+                CheckForSpecialConditions(x - 1, y - 1, 8, ++countInARow);
             }
         }
     }

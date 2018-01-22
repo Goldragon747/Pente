@@ -39,11 +39,14 @@
             <Button x:Name="StartBtn" Content="Start Game" Click="Start_Click"/>
         </StackPanel>
         <!--GameBoard-->
-        <Grid Grid.RowSpan="2" Grid.ColumnSpan="1" >
+        <Grid Grid.RowSpan="2" Grid.ColumnSpan="1" x:Name="PlayBoardBackground" Visibility="Collapsed">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Images/Background.png"/>
+            </Grid.Background>
             <Border BorderBrush="Black" BorderThickness="3"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     >
-                
+               
             <UniformGrid x:Name="GameBoardGrid" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Visibility="Collapsed"
                      Height="650" Width="650" Background="DarkCyan"/>
             </Border>
