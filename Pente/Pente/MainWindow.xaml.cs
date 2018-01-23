@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -450,9 +454,22 @@ namespace Pente
             }
         }
 
+        OpenFileDialog openFileDialog = new OpenFileDialog();
         private void LoadGame_Click(object sender, RoutedEventArgs e)
         {
-
+            openFileDialog.Filter = "pente files (*.pente)|*.pente";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.RestoreDirectory = true;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                if (stream.Length != 0)
+                {
+                    //gameData = (GameData)formatter.Deserialize(stream);
+                }
+                stream.Close();
+            }
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -460,14 +477,13 @@ namespace Pente
 
         }
 
-        private void Save_Command(object sender, ExecutedRoutedEventArgs e)
+        private void SaveGame_Click(object sender, RoutedEventArgs e)
         {
-
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(openFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, null);
+            stream.Close();
         }
 
-        private void Open_Command(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
     }
 }

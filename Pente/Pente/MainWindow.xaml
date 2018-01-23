@@ -6,10 +6,6 @@
         xmlns:local="clr-namespace:Pente"
         mc:Ignorable="d"
         Title="Pente" WindowState="Maximized" ResizeMode="NoResize">
-    <Window.CommandBindings>
-        <CommandBinding Command="Save" Executed="Save_Command"/>
-        <CommandBinding Command="Open" Executed="Open_Command"/>
-    </Window.CommandBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
@@ -19,13 +15,6 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <!--Header-->
-        <StackPanel x:Name="Header" Grid.Row="0" Grid.ColumnSpan="2" Visibility="Visible" Background="Black">
-            <Menu Background="Cyan" HorizontalAlignment="Right">
-                <MenuItem Header="Save" Command="Save"/>
-                <MenuItem Header="Load" Command="Open"/>
-            </Menu>
-        </StackPanel>
         <!--Menu-->
         <Label x:Name="PenteLabel" Grid.Row="0"  Grid.ColumnSpan="2" Content="Pente" Background="Cyan"
                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="DemiBold" FontSize="48"
@@ -70,7 +59,7 @@
             </Border>
         </Grid>
         <!--Control Panel-->
-        <StackPanel x:Name="ControlPanel" Grid.Column="1" Grid.Row="0"  Grid.RowSpan="2" Background="Cornsilk" Visibility="Collapsed">
+        <StackPanel x:Name="ControlPanel" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="Cornsilk" Visibility="Collapsed">
             <Label x:Name="TurnLabel" Background="Cyan" Height="50"
                    Content="Player Turn"/>
             <Label x:Name="ConsoleLabel" Background="DarkCyan" Height="50"/>
@@ -86,6 +75,12 @@
                 </DockPanel>
             </StackPanel>
             <Label x:Name="TimerLabel" Background="Black" Margin="0 50 0 0"/>
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="LoadBtn2" Width="150" Height="100"
+                    Content="Load Game" Click="LoadGame_Click"/>
+                <Button x:Name="SaveBtn" Width="150" Height="100"
+                    Content="Save Game" Click="SaveGame_Click"/>
+            </WrapPanel>
         </StackPanel>
     </Grid>
 </Window>
