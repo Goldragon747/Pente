@@ -153,5 +153,54 @@ namespace PenteTests
 
             Assert.AreEqual(result, main.board[0, 0].Background);
         }
+        [TestMethod]
+        public void TestIfOutsideBoardforXlower()
+        {
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            bool result = false;            
+            Assert.AreEqual(result, main.CheckIfInBounds(-1, 2));
+        }
+        [TestMethod]
+        public void TestIfOutsideBoardforXupper()
+        {
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            bool result = false;
+            Assert.AreEqual(result, main.CheckIfInBounds(10, 2));
+        }
+        [TestMethod]
+        public void TestIfOutsideBoardforYlower()
+        {
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            bool result = false;
+            Assert.AreEqual(result, main.CheckIfInBounds(1, -1));
+        }
+        [TestMethod]
+        public void TestIfOutsideBoardforYupper()
+        {
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            bool result = false;
+            Assert.AreEqual(result, main.CheckIfInBounds(2, 10));
+        }
+        [TestMethod]
+        public void TestIfInsideBoardforX()
+        {
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            bool result = true;
+            Assert.AreEqual(result, main.CheckIfInBounds(1, 2));
+        }
+        [TestMethod]
+        public void TestIfInsideBoardforY()
+        {
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            bool result = true;
+            Assert.AreEqual(result, main.CheckIfInBounds(1, 2));
+        }
+
     }
 }
