@@ -48,7 +48,7 @@
         <!--GameBoard-->
         <Grid Grid.RowSpan="2" Grid.ColumnSpan="1" x:Name="PlayBoardBackground" Visibility="Collapsed">
             <Grid.Background>
-                <ImageBrush ImageSource="/Images/background.png"/>
+                <ImageBrush ImageSource="Images/background.png"/>
             </Grid.Background>
             <Border BorderBrush="Black" BorderThickness="3"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
