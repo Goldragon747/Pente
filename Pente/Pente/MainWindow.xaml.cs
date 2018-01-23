@@ -30,7 +30,7 @@ namespace Pente
     {
         public bool isPlayer1Turn = true;
         public bool computerEnabled = false;
-        public int tileSize = 11;
+        public int tileSize = 0;
         public int player1TriaCount = 0;
         public int player1TesseraCount = 0;
         public int player2TriaCount = 0;
@@ -50,6 +50,7 @@ namespace Pente
         public ImageBrush imgBrushWhite = new ImageBrush();
         public ImageBrush currentPlayerBrush;
         public Timer t = new Timer(1000);
+        public OpenFileDialog openFileDialog = new OpenFileDialog();
         public Button VsComputerBtnProp
         {
             get { return VsComputerBtn; }
@@ -119,13 +120,13 @@ namespace Pente
         {
             InitializeComponent();
         }
-        
+        // B & E
         public void PvP_Click(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Visible;
         }
-
+        // B & E
         public void PvC_Click(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
@@ -164,9 +165,9 @@ namespace Pente
         {
             t.Stop();
         }
+        // B & E
         public void Start_Click(object sender, RoutedEventArgs e)
         {
-            
             PenteLabel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Collapsed;
             PNameBlock.Text = PlayerNameBox.Text;
@@ -174,14 +175,17 @@ namespace Pente
             imgBrushTile.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/tile4.png", UriKind.RelativeOrAbsolute));
             imgBrushBlack.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/black4.png", UriKind.RelativeOrAbsolute));
             imgBrushWhite.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/white4.png", UriKind.RelativeOrAbsolute));
+
             if (string.IsNullOrEmpty(PlayerNameBox.Text))
                 PNameBlock.Text = "Player 1:";
-
             if (!string.IsNullOrEmpty(EnemyNameBox.Text))
                 ENameBlock.Text = EnemyNameBox.Text;
+            else if (PvPNameDockPanel.Visibility == Visibility.Collapsed)
+                ENameBlock.Text = "Computer:";
             else
                 ENameBlock.Text = "Player 2:";
-
+            
+            tileSize = (int)GridSlider.Value;
             ControlPanel.Visibility = Visibility.Visible;
             GameBoardGrid.Visibility = Visibility.Visible;
             BoardBackground();
@@ -467,7 +471,8 @@ namespace Pente
             }
         }
 
-        OpenFileDialog openFileDialog = new OpenFileDialog();
+        
+        // B & E
         private void LoadGame_Click(object sender, RoutedEventArgs e)
         {
             openFileDialog.Filter = "pente files (*.pente)|*.pente";
@@ -484,16 +489,20 @@ namespace Pente
                 stream.Close();
             }
         }
-
+        // B & E
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
         }
-
+        // B & E
         private void SaveGame_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "pente files (*.pente)|*.pente";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.RestoreDirectory = true;
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(openFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            Stream stream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, null);
             stream.Close();
         }
