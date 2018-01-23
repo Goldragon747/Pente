@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:Pente"
         mc:Ignorable="d"
         Title="Pente" WindowState="Maximized" ResizeMode="NoResize">
+    <Window.CommandBindings>
+        <CommandBinding Command="Save" Executed="Save_Command"/>
+        <CommandBinding Command="Open" Executed="Open_Command"/>
+    </Window.CommandBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
@@ -15,12 +19,21 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <!--Header-->
+        <StackPanel x:Name="Header" Grid.Row="0" Grid.ColumnSpan="2" Visibility="Visible" Background="Black">
+            <Menu Background="Cyan" HorizontalAlignment="Right">
+                <MenuItem Header="Save" Command="Save"/>
+                <MenuItem Header="Load" Command="Open"/>
+            </Menu>
+        </StackPanel>
         <!--Menu-->
         <Label x:Name="PenteLabel" Grid.Row="0"  Grid.ColumnSpan="2" Content="Pente" Background="Cyan"
                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="DemiBold" FontSize="48"
                Visibility="Visible"/>
         <WrapPanel x:Name="PlayerPanel" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Visibility="Visible">
+            <Button x:Name="LoadBtn" Width="150" Height="100"
+                    Content="Load Game" Click="LoadGame_Click"/>
             <Button x:Name="VsPlayerBtn" Width="150" Height="100"
                     Content="PvPlayer" Click="PvP_Click"/>
             <Button x:Name="VsComputerBtn" Width="150" Height="100"
@@ -28,6 +41,11 @@
         </WrapPanel>
         <StackPanel x:Name="NamePanel" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Visibility="Collapsed" >
+            <DockPanel>
+                <Label Content="Grid Size" HorizontalContentAlignment="Left" Width="60"/>
+                <Label x:Name="GridSizeLabel" Content="{Binding Value, ElementName=GridSlider, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right"/>
+                <Slider Minimum="9" Maximum="39" x:Name="GridSlider" TickFrequency="2" IsSnapToTickEnabled="True" ValueChanged="Slider_ValueChanged"/>
+            </DockPanel>
             <DockPanel Margin="0 0 0 10">
                 <TextBlock Text="Player 1's Name: "/>
                 <TextBox x:Name="PlayerNameBox" Width="100"/>
@@ -40,9 +58,9 @@
         </StackPanel>
         <!--GameBoard-->
         <Grid Grid.RowSpan="2" Grid.ColumnSpan="1" x:Name="PlayBoardBackground" Visibility="Collapsed">
-            <Grid.Background>
+            <!--<Grid.Background>
                 <ImageBrush ImageSource="/Images/background.png"/>
-            </Grid.Background>
+            </Grid.Background>-->
             <Border BorderBrush="Black" BorderThickness="3"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     >
@@ -67,6 +85,7 @@
                     <Label x:Name="EnemyCaptureLabel" Width="50" Background="Aqua"/>
                 </DockPanel>
             </StackPanel>
+            <Label x:Name="TimerLabel" Background="Black" Margin="0 50 0 0"/>
         </StackPanel>
     </Grid>
 </Window>

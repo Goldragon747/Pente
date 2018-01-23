@@ -449,5 +449,25 @@ namespace Pente
                 CheckForSpecialConditions(x - 1, y - 1, 8, ++countInARow);
             }
         }
+
+        private void LoadGame_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void Save_Command(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void Open_Command(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
     }
 }
