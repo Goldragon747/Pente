@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pente;
 using System.Windows;
+using System.Windows.Media;
 
 namespace PenteTests
 {
@@ -89,13 +90,13 @@ namespace PenteTests
         }
 
 
-        ///////////////////////////////////BEN//////////////////
+        ////////////////////////////BEN & LIZ//////////////////
         [TestMethod]
         public void ChangeIsPlayer1TurntoFalse()
         {
-            bool result = true;
+            bool result = false;
             MainWindow main = new MainWindow();
-            main.isPlayer1Turn = false;
+            main.isPlayer1Turn = true;
             main.SwitchPlayer();
             Assert.AreEqual(result, main.isPlayer1Turn);
         }
@@ -110,23 +111,47 @@ namespace PenteTests
             Assert.AreEqual(result, main.isPlayer1Turn);
         }
         [TestMethod]
-        public void ChangePlayerTurnLabeltoPlayer2Name()
+        public void ChangePlayerTurnLabeltoDefaultPlayer2Name()
         {
             string result = "Player 2:'s Turn";
             MainWindow main = new MainWindow();
             main.Start_Click(null, null);
-            main.SwitchPlayer();
             Assert.AreEqual(result, main.TurnLabelProp.Content);
         }
         [TestMethod]
-        public void ChangePlayerTurnLabeltoPlayer1Name()
+        public void ChangePlayerTurnLabeltoDefaultPlayer1Name()
         {
             string result = "Player 1:'s Turn";
             MainWindow main = new MainWindow();
             main.isPlayer1Turn = false;
             main.Start_Click(null, null);
-            main.SwitchPlayer();
             Assert.AreEqual(result, main.TurnLabelProp.Content);
+        }
+        
+        [TestMethod]
+        public void SwitchButtonBackgroundToBlack()
+        {
+            MainWindow main = new MainWindow();
+            Brush result = main.imgBrushBlack;
+
+            main.Start_Click(null, null);
+            main.BoardClicked(main.board[0, 0], null);
+            main.SwitchButtonBackground(main.board[0, 0]);
+
+            Assert.AreEqual(result, main.board[0,0].Background);
+        }
+        [TestMethod]
+        public void SwitchButtonBackgroundToWhite()
+        {
+            MainWindow main = new MainWindow();
+            Brush result = main.imgBrushWhite;
+
+            main.Start_Click(null, null);
+            main.SwitchPlayer();
+            main.BoardClicked(main.board[0, 0], null);
+            main.SwitchButtonBackground(main.board[0, 0]);
+
+            Assert.AreEqual(result, main.board[0, 0].Background);
         }
     }
 }
