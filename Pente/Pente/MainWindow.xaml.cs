@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -38,11 +39,13 @@ namespace Pente
         public int player2Win = 0;
         public int player1Captures = 0;
         public int player2Captures = 0;
+        public int turnTime = 0;
         public Button[,] board;
         public ImageBrush imgBrushTile = new ImageBrush();
         public ImageBrush imgBrushBlack = new ImageBrush();
         public ImageBrush imgBrushWhite = new ImageBrush();
         public ImageBrush currentPlayerBrush;
+        public Timer t = new Timer(1000);
         public Button VsComputerBtnProp
         {
             get { return VsComputerBtn; }
@@ -120,7 +123,37 @@ namespace Pente
             PvPNameDockPanel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Visible;
         }
+        // M & B
+        public void StartTimer()
+        {
 
+            t.Enabled = true;
+            t.Start();
+            t.Elapsed += new ElapsedEventHandler(OnTimedEvent); ;
+        }
+        // M & B
+        public void OnTimedEvent(object source, ElapsedEventArgs e)
+        { 
+
+            turnTime++;
+            //TimerLabel.content = turnTime;
+            if (turnTime >= 20)
+            {
+                PlayerTurnExpired();
+            }
+            
+        }
+        // M & B
+        public void PlayerTurnExpired()
+        {
+            turnTime = 0;
+            //EndTimer();
+        }
+        // M & B
+        public void EndTimer()
+        {
+            t.Stop();
+        }
         public void Start_Click(object sender, RoutedEventArgs e)
         {
             PenteLabel.Visibility = Visibility.Collapsed;
