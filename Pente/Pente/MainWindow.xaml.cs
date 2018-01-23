@@ -39,7 +39,7 @@ namespace Pente
         public int player2Win = 0;
         public int player1Captures = 0;
         public int player2Captures = 0;
-        public int turnTime = 0;
+        public int turnTime = 20;
         public Button[,] board;
         public ImageBrush imgBrushTile = new ImageBrush();
         public ImageBrush imgBrushBlack = new ImageBrush();
@@ -50,6 +50,11 @@ namespace Pente
         {
             get { return VsComputerBtn; }
             set { VsComputerBtn = value; }
+        }
+        public Label TimerLabelProp
+        {
+            get { return TimerLabel; }
+            set { TimerLabel = value; }
         }
         public Button VsPlayerBtnProp
         {
@@ -126,18 +131,18 @@ namespace Pente
         // M & B
         public void StartTimer()
         {
-
-            t.Enabled = true;
+            t.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+           
             t.Start();
-            t.Elapsed += new ElapsedEventHandler(OnTimedEvent); ;
+            
         }
         // M & B
         public void OnTimedEvent(object source, ElapsedEventArgs e)
         { 
 
-            turnTime++;
-            //TimerLabel.content = turnTime;
-            if (turnTime >= 20)
+            turnTime--;
+            
+            if (turnTime <= 0)
             {
                 PlayerTurnExpired();
             }
@@ -146,7 +151,8 @@ namespace Pente
         // M & B
         public void PlayerTurnExpired()
         {
-            turnTime = 0;
+            turnTime = 20;
+            SwitchPlayer();
             //EndTimer();
         }
         // M & B
@@ -156,6 +162,7 @@ namespace Pente
         }
         public void Start_Click(object sender, RoutedEventArgs e)
         {
+            
             PenteLabel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Collapsed;
             PNameBlock.Text = PlayerNameBox.Text;
@@ -182,6 +189,12 @@ namespace Pente
             int middle = ((tileSize - 1) / 2);
             SwitchButtonBackground(board[middle, middle]);
             SwitchPlayer();
+            Binding b = new Binding();
+            b.Source = turnTime;
+            TimerLabel.DataContext = b;
+            StartTimer();
+            // FIX DATA BINDING ON TIMER 
+            TimerLabel.Foreground = Brushes.White;
         }
 
 
