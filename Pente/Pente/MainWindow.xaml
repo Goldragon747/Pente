@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pente"
         mc:Ignorable="d"
-        Title="Pente" WindowState="Maximized" ResizeMode="NoResize">
+        Title="  Pente" WindowState="Maximized" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="7*"/>
@@ -44,6 +44,7 @@
                 <TextBox x:Name="EnemyNameBox" Width="100"/>
             </DockPanel>
             <Button x:Name="StartBtn" Content="Start Game" Click="Start_Click"/>
+            <Button x:Name="BackBtn" Content="Back" Click="BackBtn_Click"/>
         </StackPanel>
         <!--GameBoard-->
         <Grid Grid.RowSpan="2" Grid.ColumnSpan="1" x:Name="PlayBoardBackground" Visibility="Collapsed">
@@ -56,7 +57,7 @@
                     >
                
             <UniformGrid x:Name="GameBoardGrid" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="2"  Visibility="Collapsed"
-                     Height="650" Width="650" Background="DarkCyan"/>
+                     Height="650" Width="650"/>
             </Border>
         </Grid>
         <!--Control Panel-->
@@ -81,6 +82,7 @@
                     Content="Load Game" Click="LoadGame_Click"/>
                 <Button x:Name="SaveBtn" Width="150" Height="100"
                     Content="Save Game" Click="SaveGame_Click"/>
+                <Button x:Name="BackBtn2" Width="84" Content="Back" Click="BackBtn_Click"/>
             </WrapPanel>
         </StackPanel>
     </Grid>

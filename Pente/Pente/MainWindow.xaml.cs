@@ -143,6 +143,7 @@ namespace Pente
         public void PvP_Click(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
+            PvPNameDockPanel.Visibility = Visibility.Visible;
             NamePanel.Visibility = Visibility.Visible;
             computerEnabled = false;
         }
@@ -157,9 +158,6 @@ namespace Pente
         // M & B
         public void StartTimer()
         {
-            t.Interval = new TimeSpan(0, 0, 1);
-            t.Tick += new EventHandler(OnTimedEvent);
-           
             t.Start();
             
         }
@@ -188,6 +186,13 @@ namespace Pente
         {
             t.Stop();
         }
+        public void SetBrushes()
+        {
+            imgBrushTile.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/tile4.png", UriKind.RelativeOrAbsolute));
+            imgBrushBlack.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/black4.png", UriKind.RelativeOrAbsolute));
+            imgBrushWhite.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/white4.png", UriKind.RelativeOrAbsolute));
+
+        }
         // B & E
         public void Start_Click(object sender, RoutedEventArgs e)
         {
@@ -195,10 +200,7 @@ namespace Pente
             NamePanel.Visibility = Visibility.Collapsed;
             PNameBlock.Text = PlayerNameBox.Text;
             PlayBoardBackground.Visibility = Visibility.Visible;
-            imgBrushTile.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/tile4.png", UriKind.RelativeOrAbsolute));
-            imgBrushBlack.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/black4.png", UriKind.RelativeOrAbsolute));
-            imgBrushWhite.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/white4.png", UriKind.RelativeOrAbsolute));
-
+            SetBrushes();
             if (string.IsNullOrEmpty(PlayerNameBox.Text))
                 PNameBlock.Text = "Player 1:";
             if (!string.IsNullOrEmpty(EnemyNameBox.Text))
@@ -220,8 +222,9 @@ namespace Pente
             int middle = ((tileSize - 1) / 2);
             SwitchButtonBackground(board[middle, middle]);
             TakeAppropriateTurn(null);
+            t.Interval = new TimeSpan(0, 0, 1);
+            t.Tick += new EventHandler(OnTimedEvent);
             StartTimer();
-            // FIX DATA BINDING ON TIMER
         }
         // G & M
         public void TakeComputerTurn()
@@ -252,9 +255,6 @@ namespace Pente
                     b.BorderThickness = new Thickness(0);
                     b.Click += BoardClicked;
                     b.Background = imgBrushTile;
-                    Style s = new Style();
-                    s.Triggers.Clear();
-                    b.Style = s;
                     GameBoardGrid.Children.Add(b);
                     board[j, i] = b;
                 }
@@ -599,10 +599,43 @@ namespace Pente
             }
         }
 
-        
+        public void ResetGame()
+        {
+            isPlayer1Turn = true;
+            turnCount = 0;
+            computerEnabled = false;
+            tileSize = 0;
+            player1TriaCount = 0;
+            player1TesseraCount = 0;
+            player2TriaCount = 0;
+            player2TesseraCount = 0;
+            tempPlayer1TriaCount = 0;
+            tempPlayer1TesseraCount = 0;
+            tempPlayer2TriaCount = 0;
+            tempPlayer2TesseraCount = 0;
+            player1Win = 0;
+            player2Win = 0;
+            player1Captures = 0;
+            player2Captures = 0;
+            turnTime = 20;
+            GameBoardGrid.Children.Clear();
+            t.Tick -= OnTimedEvent;
+        }
+        public void ResetVisibility()
+        {
+            PenteLabel.Visibility = Visibility.Visible;
+            PlayerPanel.Visibility = Visibility.Visible;
+            PvPNameDockPanel.Visibility = Visibility.Collapsed;
+            ControlPanel.Visibility = Visibility.Collapsed;
+            PlayBoardBackground.Visibility = Visibility.Collapsed;
+            GameBoardGrid.Visibility = Visibility.Collapsed;
+            NamePanel.Visibility = Visibility.Collapsed;
+        }
         // B & E
         public void LoadGame_Click(object sender, RoutedEventArgs e)
         {
+            EndTimer();
+            Save save = new Save();
             openFileDialog.Filter = "pente files (*.pente)|*.pente";
             openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
@@ -612,22 +645,102 @@ namespace Pente
                 Stream stream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 if (stream.Length != 0)
                 {
-                    //gameData = (GameData)formatter.Deserialize(stream);
+                    save = (Save)formatter.Deserialize(stream);
                 }
                 stream.Close();
+                if (PlayBoardBackground.Visibility == Visibility.Collapsed)
+                {
+                    t.Interval = new TimeSpan(0, 0, 1);
+                    t.Tick += new EventHandler(OnTimedEvent);
+                }
+                PenteLabel.Visibility = Visibility.Collapsed;
+                NamePanel.Visibility = Visibility.Collapsed;
+                PlayerPanel.Visibility = Visibility.Collapsed;
+                PvPNameDockPanel.Visibility = Visibility.Collapsed;
+                ControlPanel.Visibility = Visibility.Visible;
+                PlayBoardBackground.Visibility = Visibility.Visible;
+                GameBoardGrid.Visibility = Visibility.Visible;
+
+                isPlayer1Turn = save.isPlayer1Turn;
+                PNameBlock.Text = save.player1Name;
+                ENameBlock.Text = save.player2Name;
+                PlayerCaptureLabel.Content = save.player1Captures;
+                EnemyCaptureLabel.Content = save.player2Captures;
+                turnCount = save.turnCount;
+                computerEnabled = save.computerEnabled;
+                tileSize = save.tileSize;
+                player1TriaCount = save.player1TriaCount;
+                player1TesseraCount = save.player1TesseraCount;
+                player2TriaCount = save.player2TriaCount;
+                player2TesseraCount = save.player2TesseraCount;
+                tempPlayer1TriaCount = save.tempPlayer1TriaCount;
+                tempPlayer1TesseraCount = save.tempPlayer1TesseraCount;
+                tempPlayer2TriaCount = save.tempPlayer2TriaCount;
+                tempPlayer2TesseraCount = save.tempPlayer2TesseraCount;
+                player1Win = save.player1Win;
+                player2Win = save.player2Win;
+                player1Captures = save.player1Captures;
+                player2Captures = save.player2Captures;
+                turnTime = save.turnTime;
+                currentPlayerBrush = save.currentPlayerBrush ? imgBrushBlack : imgBrushWhite;
+                board = new Button[tileSize, tileSize];
+                GameBoardGrid.Children.Clear();
+                SetBrushes();
+                for (int i = 0; i < tileSize; i++)
+                {
+                    for (int j = 0; j < tileSize; j++)
+                    {
+                        Button b = new Button();
+                        b.BorderThickness = new Thickness(0);
+                        b.Click += BoardClicked;
+                        if (save.board[i, j] == 1)
+                            b.Background = imgBrushBlack;
+                        else if (save.board[i, j] == 2)
+                            b.Background = imgBrushWhite;
+                        else
+                            b.Background = imgBrushTile;
+                        GameBoardGrid.Children.Add(b);
+                        board[i, j] = b;
+                    }
+                }
             }
+            
+            
+            StartTimer();
         }
         // B & E
         public void SaveGame_Click(object sender, RoutedEventArgs e)
         {
+            EndTimer();
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "pente files (*.pente)|*.pente";
             saveFileDialog.FilterIndex = 1;
             saveFileDialog.RestoreDirectory = true;
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, null);
-            stream.Close();
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
+                int[,] saveboard = new int[tileSize, tileSize];
+                for (int i = 0; i < tileSize; i++)
+                {
+                    for (int j = 0; j < tileSize; j++)
+                    {
+                        if (board[i, j].Background == imgBrushBlack)
+                            saveboard[i, j] = 1;
+                        else if (board[i, j].Background == imgBrushWhite)
+                            saveboard[i, j] = 2;
+                        else
+                            saveboard[i, j] = 0;
+                    }
+                }
+                Save s = new Save(isPlayer1Turn, turnCount, computerEnabled, tileSize, player1TriaCount
+                    , player1TesseraCount, player2TriaCount, player2TesseraCount, tempPlayer1TesseraCount, tempPlayer1TesseraCount
+                    , tempPlayer2TriaCount, tempPlayer2TesseraCount, player1Win, player2Win, player1Captures, player2Captures
+                    , turnTime, saveboard, (currentPlayerBrush == imgBrushBlack), PNameBlock.Text, ENameBlock.Text);
+                formatter.Serialize(stream, s);
+                stream.Close();
+            }
+            StartTimer();
         }
         // G & M
         public bool TournamentRules(int x, int y)
@@ -635,6 +748,22 @@ namespace Pente
             int invalidMiddleSpot = (tileSize - 1) / 2;
             return x > invalidMiddleSpot + 2 || x < invalidMiddleSpot - 2 ||
                    y > invalidMiddleSpot + 2 || y < invalidMiddleSpot - 2;
+        }
+
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if(PlayBoardBackground.Visibility == Visibility.Visible)
+            {
+                if (MessageBox.Show("Exit without saving?", "W A R N I N G", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    ResetGame();
+                    ResetVisibility();
+                }
+            } else
+            {
+                ResetGame();
+                ResetVisibility();
+            }
         }
     }
 }
