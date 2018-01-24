@@ -128,6 +128,12 @@ namespace Pente
             get { return EnemyCaptureLabel; }
             set { EnemyCaptureLabel = value; }
         }
+        public TextBox EnemyNameBoxProp
+        {
+            get { return EnemyNameBox; }
+            set { EnemyNameBox = value; }
+        }
+
 
         public MainWindow()
         {
@@ -171,9 +177,10 @@ namespace Pente
         }
         public void PlayerTurnExpired()
         {
+            MessageBox.Show("Your turn expired!");
             turnTime = 20;
             TimerLabel.Content = "Time Remaining: " +  turnTime;
-            TakeAppropriateTurn();
+            TakeAppropriateTurn(null);
             //EndTimer();
         }
         // M & B
@@ -212,7 +219,7 @@ namespace Pente
         {
             int middle = ((tileSize - 1) / 2);
             SwitchButtonBackground(board[middle, middle]);
-            TakeAppropriateTurn();
+            TakeAppropriateTurn(null);
             StartTimer();
             // FIX DATA BINDING ON TIMER
         }
@@ -229,6 +236,8 @@ namespace Pente
                 {
                     board[ranX, ranY].Background = imgBrushWhite;
                     validTurnTaken = true;
+                    CheckConditions(board[ranX, ranY]);
+                    SwitchPlayer();
                 }
             }
         }
@@ -285,7 +294,7 @@ namespace Pente
                                 SwitchButtonBackground(b);
                                 turnTime = 20;
                                 TimerLabel.Content = "Time Remaining: " + turnTime;
-                                TakeAppropriateTurn();
+                                TakeAppropriateTurn(b);
                             }
                         }
                     }
@@ -295,30 +304,29 @@ namespace Pente
                     SwitchButtonBackground(b);
                     turnTime = 20;
                     TimerLabel.Content = "Time Remaining: " + turnTime;
-                    TakeAppropriateTurn();
+                    TakeAppropriateTurn(b);
                 }
                 //player1TurnsTakenCount = currentPlayerBrush == imgBrushBlack ? player1TurnsTakenCount++ : player1TurnsTakenCount;
             }
         }
         // M & B
-        public void TakeAppropriateTurn()
+        public void TakeAppropriateTurn(Button b)
         {
-            CheckConditions();
+            if(b != null)
+                CheckConditions(b);
             SwitchPlayer();
             if (computerEnabled)
             {
                 TakeComputerTurn();
-                CheckConditions();
-                SwitchPlayer();
             }
         }
-        public void CheckConditions()
+        public void CheckConditions(Button b)
         {
             for (int i = 0; i < tileSize; i++)
             {
                 for (int j = 0; j < tileSize; j++)
                 {
-                    if (board[i, j].Background == currentPlayerBrush)
+                    if (board[i, j] == b)
                         CheckForCapture(i, j);
                 }
             }
@@ -338,65 +346,63 @@ namespace Pente
         public void CheckForCapture(int x, int y)
         {
             ImageBrush enemyBrush = isPlayer1Turn ? imgBrushWhite : imgBrushBlack;
-            if(board[x,y].Background == currentPlayerBrush)
+            if (CheckIfInBounds(x - 3, y - 3) &&
+                board[x - 3, y - 3].Background == currentPlayerBrush &&
+                board[x - 2, y - 2].Background == enemyBrush &&
+                board[x - 1, y - 1].Background == enemyBrush)
             {
-                if (CheckIfInBounds(x - 3, y - 3) &&
-               board[x - 3, y - 3].Background == currentPlayerBrush &&
-               board[x - 2, y - 2].Background == enemyBrush &&
-               board[x - 1, y - 1].Background == enemyBrush)
-                {
-                    Capture(x - 1, y - 1, x - 2, y - 2);
-                }
-                if (CheckIfInBounds(x, y - 3) &&
-                   board[x, y - 3].Background == currentPlayerBrush &&
-                   board[x, y - 2].Background == enemyBrush &&
-                   board[x, y - 1].Background == enemyBrush)
-                {
-                    Capture(x, y - 1, x, y - 2);
-                }
-                if (CheckIfInBounds(x + 3, y - 3) &&
-                   board[x + 3, y - 3].Background == currentPlayerBrush &&
-                   board[x + 2, y - 2].Background == enemyBrush &&
-                   board[x + 1, y - 1].Background == enemyBrush)
-                {
-                    Capture(x + 1, y - 1, x + 2, y - 2);
-                }
-                if (CheckIfInBounds(x + 3, y) &&
-                   board[x + 3, y].Background == currentPlayerBrush &&
-                   board[x + 2, y].Background == enemyBrush &&
-                   board[x + 1, y].Background == enemyBrush)
-                {
-                    Capture(x + 1, y, x + 2, y);
-                }
-                if (CheckIfInBounds(x + 3, y + 3) &&
-                   board[x + 3, y + 3].Background == currentPlayerBrush &&
-                   board[x + 2, y + 2].Background == enemyBrush &&
-                   board[x + 1, y + 1].Background == enemyBrush)
-                {
-                    Capture(x + 1, y + 1, x + 2, y + 2);
-                }
-                if (CheckIfInBounds(x, y + 3) &&
-                   board[x, y + 3].Background == currentPlayerBrush &&
-                   board[x, y + 2].Background == enemyBrush &&
-                   board[x, y + 1].Background == enemyBrush)
-                {
-                    Capture(x, y + 1, x, y + 2);
-                }
-                if (CheckIfInBounds(x - 3, y + 3) &&
-                   board[x - 3, y + 3].Background == currentPlayerBrush &&
-                   board[x - 2, y + 2].Background == enemyBrush &&
-                   board[x - 1, y + 1].Background == enemyBrush)
-                {
-                    Capture(x - 1, y + 1, x - 2, y + 2);
-                }
-                if (CheckIfInBounds(x - 3, y) &&
-                   board[x - 3, y].Background == currentPlayerBrush &&
-                   board[x - 2, y].Background == enemyBrush &&
-                   board[x - 1, y].Background == enemyBrush)
-                {
-                    Capture(x - 1, y, x - 2, y);
-                }
+                Capture(x - 1, y - 1, x - 2, y - 2);
             }
+            if (CheckIfInBounds(x, y - 3) &&
+                board[x, y - 3].Background == currentPlayerBrush &&
+                board[x, y - 2].Background == enemyBrush &&
+                board[x, y - 1].Background == enemyBrush)
+            {
+                Capture(x, y - 1, x, y - 2);
+            }
+            if (CheckIfInBounds(x + 3, y - 3) &&
+                board[x + 3, y - 3].Background == currentPlayerBrush &&
+                board[x + 2, y - 2].Background == enemyBrush &&
+                board[x + 1, y - 1].Background == enemyBrush)
+            {
+                Capture(x + 1, y - 1, x + 2, y - 2);
+            }
+            if (CheckIfInBounds(x + 3, y) &&
+                board[x + 3, y].Background == currentPlayerBrush &&
+                board[x + 2, y].Background == enemyBrush &&
+                board[x + 1, y].Background == enemyBrush)
+            {
+                Capture(x + 1, y, x + 2, y);
+            }
+            if (CheckIfInBounds(x + 3, y + 3) &&
+                board[x + 3, y + 3].Background == currentPlayerBrush &&
+                board[x + 2, y + 2].Background == enemyBrush &&
+                board[x + 1, y + 1].Background == enemyBrush)
+            {
+                Capture(x + 1, y + 1, x + 2, y + 2);
+            }
+            if (CheckIfInBounds(x, y + 3) &&
+                board[x, y + 3].Background == currentPlayerBrush &&
+                board[x, y + 2].Background == enemyBrush &&
+                board[x, y + 1].Background == enemyBrush)
+            {
+                Capture(x, y + 1, x, y + 2);
+            }
+            if (CheckIfInBounds(x - 3, y + 3) &&
+                board[x - 3, y + 3].Background == currentPlayerBrush &&
+                board[x - 2, y + 2].Background == enemyBrush &&
+                board[x - 1, y + 1].Background == enemyBrush)
+            {
+                Capture(x - 1, y + 1, x - 2, y + 2);
+            }
+            if (CheckIfInBounds(x - 3, y) &&
+                board[x - 3, y].Background == currentPlayerBrush &&
+                board[x - 2, y].Background == enemyBrush &&
+                board[x - 1, y].Background == enemyBrush)
+            {
+                Capture(x - 1, y, x - 2, y);
+            }
+            
         }
         // G & M
         public void Capture(int x1, int y1, int x2, int y2)
@@ -428,16 +434,17 @@ namespace Pente
             {
                 if (isPlayer1Turn)
                 {
-                    if(tempPlayer1TesseraCount > player1TesseraCount)
+                    if(tempPlayer1TesseraCount != player1TesseraCount)
                     {
-                        MessageBox.Show("PLAYER 1 TESSERA");
+                        if(tempPlayer1TesseraCount > player1TesseraCount)
+                            MessageBox.Show("PLAYER 1 TESSERA");
                         player1TesseraCount = tempPlayer1TesseraCount;
                     }
                     else if(tempPlayer1TriaCount > player1TriaCount)
                     {
                         MessageBox.Show("PLAYER 1 TRIA");
                     }
-                    if (tempPlayer1TriaCount > player1TriaCount)
+                    if (tempPlayer1TriaCount != player1TriaCount)
                     {
                         player1TriaCount = tempPlayer1TriaCount;
                     }
@@ -445,18 +452,22 @@ namespace Pente
                     tempPlayer1TesseraCount = 0;
                 } else
                 {
-                    if (tempPlayer2TesseraCount > player2TesseraCount)
+                    if (tempPlayer2TesseraCount != player2TesseraCount)
                     {
+                        if (tempPlayer2TesseraCount > player2TesseraCount)
+                            MessageBox.Show("PLAYER 2 TESSERA");
                         player2TesseraCount = tempPlayer2TesseraCount;
-                        tempPlayer2TesseraCount = 0;
-                        MessageBox.Show("PLAYER 2 TESSERA");
                     }
                     else if (tempPlayer2TriaCount > player2TriaCount)
                     {
-                        player2TriaCount = tempPlayer2TriaCount;
-                        tempPlayer2TriaCount = 0;
                         MessageBox.Show("PLAYER 2 TRIA");
                     }
+                    if (tempPlayer2TriaCount != player2TriaCount)
+                    {
+                        player2TriaCount = tempPlayer2TriaCount;
+                    }
+                    tempPlayer2TriaCount = 0;
+                    tempPlayer2TesseraCount = 0;
                 }
             }
         }
