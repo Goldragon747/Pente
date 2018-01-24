@@ -33,7 +33,7 @@
             <DockPanel>
                 <Label Content="Grid Size" HorizontalContentAlignment="Left" Width="60"/>
                 <Label x:Name="GridSizeLabel" Content="{Binding Value, ElementName=GridSlider, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right"/>
-                <Slider Minimum="9" Maximum="39" x:Name="GridSlider" TickFrequency="2" IsSnapToTickEnabled="True" ValueChanged="Slider_ValueChanged"/>
+                <Slider Minimum="9" Maximum="39" x:Name="GridSlider" TickFrequency="2" IsSnapToTickEnabled="True" />
             </DockPanel>
             <DockPanel Margin="0 0 0 10">
                 <TextBlock Text="Player 1's Name: "/>
