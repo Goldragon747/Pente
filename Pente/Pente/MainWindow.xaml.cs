@@ -252,13 +252,17 @@ namespace Pente
                     b.BorderThickness = new Thickness(0);
                     b.Click += BoardClicked;
                     b.Background = imgBrushTile;
-
+                    Style s = new Style();
+                    s.Triggers.Clear();
+                    b.Style = s;
                     GameBoardGrid.Children.Add(b);
                     board[j, i] = b;
                 }
 
             }
         }
+        
+
         // G & M
         public void SwitchPlayer()
         {
@@ -336,7 +340,7 @@ namespace Pente
                 {
                     if (board[i, j].Background == currentPlayerBrush)
                     {
-                        CheckForSpecialConditions(i, j, 0, 0);
+                        CheckForSpecialConditions(i, j, 0, 0,false,false);
                     }
                 }
             }
@@ -488,21 +492,23 @@ namespace Pente
         //  1 | 2 | 3
         //  8 | 0 | 4
         //  7 | 6 | 5
-        public void CheckForSpecialConditions(int x, int y, int direction, int countInARow)
+        public void CheckForSpecialConditions(int x, int y, int direction, int countInARow,bool isBlockedFirst, bool isBlockedSecond)
         {
             if (countInARow == 2)
             {
-                if (isPlayer1Turn)
-                    tempPlayer1TriaCount++;
-                else
-                    tempPlayer2TriaCount++;
+                if(!isBlockedFirst && !isBlockedSecond)
+                    if (isPlayer1Turn)
+                        tempPlayer1TriaCount++;
+                    else
+                        tempPlayer2TriaCount++;
             }
             if(countInARow == 3)
             {
-                if (isPlayer1Turn)
-                    tempPlayer1TesseraCount++;
-                else
-                    tempPlayer2TesseraCount++;
+                if(!isBlockedFirst || !isBlockedSecond)
+                    if (isPlayer1Turn)
+                        tempPlayer1TesseraCount++;
+                    else
+                        tempPlayer2TesseraCount++;
             }
             if(countInARow == 4)
             {
@@ -514,50 +520,82 @@ namespace Pente
             if((direction == 0 || direction == 1) && CheckIfInBounds(x - 1, y - 1) && board[x - 1, y - 1].Background == currentPlayerBrush)
             {
                 if (direction == 0)
+                {
                     countInARow = 0;
-                CheckForSpecialConditions(x - 1, y - 1, 1, ++countInARow);
+                    isBlockedFirst = (!CheckIfInBounds(x + 1, y + 1) || board[x + 1, y + 1].Background != imgBrushTile);
+                }
+                isBlockedSecond = (!CheckIfInBounds(x - 2, y - 2) || board[x - 2, y - 2].Background != imgBrushTile);
+                CheckForSpecialConditions(x - 1, y - 1, 1, ++countInARow, isBlockedFirst, isBlockedSecond);
             }
             if ((direction == 0 || direction == 2) && CheckIfInBounds(x, y - 1) && board[x, y - 1].Background == currentPlayerBrush)
             {
                 if (direction == 0)
+                {
                     countInARow = 0;
-                CheckForSpecialConditions(x, y - 1, 2, ++countInARow);
+                    isBlockedFirst = (!CheckIfInBounds(x, y + 1) || board[x, y + 1].Background != imgBrushTile);
+                }
+                isBlockedSecond = (!CheckIfInBounds(x, y - 2) || board[x, y - 2].Background != imgBrushTile);
+                CheckForSpecialConditions(x, y - 1, 2, ++countInARow, isBlockedFirst, isBlockedSecond);
             }
             if ((direction == 0 || direction == 3) && CheckIfInBounds(x + 1, y - 1) && board[x + 1, y - 1].Background == currentPlayerBrush)
             {
                 if (direction == 0)
+                {
                     countInARow = 0;
-                CheckForSpecialConditions(x + 1, y - 1, 3, ++countInARow);
+                    isBlockedFirst = (!CheckIfInBounds(x - 1, y + 1) || board[x - 1, y + 1].Background != imgBrushTile);
+                }
+                isBlockedSecond = (!CheckIfInBounds(x + 2, y - 2) || board[x + 2, y - 2].Background != imgBrushTile);
+                CheckForSpecialConditions(x + 1, y - 1, 3, ++countInARow, isBlockedFirst, isBlockedSecond);
             }
             if ((direction == 0 || direction == 4) && CheckIfInBounds(x + 1, y) && board[x + 1, y].Background == currentPlayerBrush)
             {
                 if (direction == 0)
+                {
                     countInARow = 0;
-                CheckForSpecialConditions(x + 1, y, 4, ++countInARow);
+                    isBlockedFirst = (!CheckIfInBounds(x - 1, y) || board[x - 1, y].Background != imgBrushTile);
+                }
+                isBlockedSecond = (!CheckIfInBounds(x + 2, y) || board[x + 2, y].Background != imgBrushTile);
+                CheckForSpecialConditions(x + 1, y, 4, ++countInARow, isBlockedFirst, isBlockedSecond);
             }
             if ((direction == 0 || direction == 5) && CheckIfInBounds(x + 1, y + 1) && board[x + 1, y + 1].Background == currentPlayerBrush)
             {
                 if (direction == 0)
+                {
                     countInARow = 0;
-                CheckForSpecialConditions(x + 1, y + 1, 5, ++countInARow);
+                    isBlockedFirst = (!CheckIfInBounds(x - 1, y - 1) || board[x - 1, y - 1].Background != imgBrushTile);
+                }
+                isBlockedSecond = (!CheckIfInBounds(x + 2, y + 2) || board[x + 2, y + 2].Background != imgBrushTile);
+                CheckForSpecialConditions(x + 1, y + 1, 5, ++countInARow, isBlockedFirst, isBlockedSecond);
             }
             if ((direction == 0 || direction == 6) && CheckIfInBounds(x, y + 1) && board[x, y + 1].Background == currentPlayerBrush)
             {
                 if (direction == 0)
+                {
                     countInARow = 0;
-                CheckForSpecialConditions(x, y + 1, 6, ++countInARow);
+                    isBlockedFirst = (!CheckIfInBounds(x, y - 1) || board[x, y - 1].Background != imgBrushTile);
+                }
+                isBlockedSecond = (!CheckIfInBounds(x, y + 2) || board[x, y + 2].Background != imgBrushTile);
+                CheckForSpecialConditions(x, y + 1, 6, ++countInARow, isBlockedFirst, isBlockedSecond);
             }
             if ((direction == 0 || direction == 7) && CheckIfInBounds(x - 1, y + 1) && board[x - 1, y + 1].Background == currentPlayerBrush)
             {
                 if (direction == 0)
+                {
                     countInARow = 0;
-                CheckForSpecialConditions(x - 1, y + 1, 7, ++countInARow);
+                    isBlockedFirst = (!CheckIfInBounds(x + 1, y - 1) || board[x + 1, y - 1].Background != imgBrushTile);
+                }
+                isBlockedSecond = (!CheckIfInBounds(x - 2, y + 2) || board[x - 2, y + 2].Background != imgBrushTile);
+                CheckForSpecialConditions(x - 1, y + 1, 7, ++countInARow, isBlockedFirst, isBlockedSecond);
             }
             if ((direction == 0 || direction == 8) && CheckIfInBounds(x - 1, y) && board[x - 1, y].Background == currentPlayerBrush)
             {
                 if (direction == 0)
+                {
                     countInARow = 0;
-                CheckForSpecialConditions(x - 1, y, 8, ++countInARow);
+                    isBlockedFirst = (!CheckIfInBounds(x + 1, y) || board[x + 1, y].Background != imgBrushTile);
+                }
+                isBlockedSecond = (!CheckIfInBounds(x - 2, y) || board[x - 2, y].Background != imgBrushTile);
+                CheckForSpecialConditions(x - 1, y, 8, ++countInARow, isBlockedFirst, isBlockedSecond);
             }
         }
 
