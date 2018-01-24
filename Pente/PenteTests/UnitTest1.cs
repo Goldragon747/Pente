@@ -145,7 +145,7 @@ namespace PenteTests
             string result = "Mindle's Turn";
 
             MainWindow main = new MainWindow();
-            //main.EnemyNameBoxProp.Text = "Mindle";
+            main.EnemyNameBoxProp.Text = "Mindle";
             main.Start_Click(null, null);
 
             Assert.AreEqual(result, main.TurnLabelProp.Content);
@@ -316,7 +316,7 @@ namespace PenteTests
             MainWindow main = new MainWindow();
             main.computerEnabled = true;
             main.Start_Click(null, null);
-            main.TakeAppropriateTurn();
+            main.TakeAppropriateTurn(null);
 
             Assert.AreEqual(result, main.computerEnabled);
         }
@@ -327,7 +327,7 @@ namespace PenteTests
 
             MainWindow main = new MainWindow();
             main.Start_Click(null, null);
-            main.TakeAppropriateTurn();
+            main.TakeAppropriateTurn(null);
 
             Assert.AreEqual(result, main.computerEnabled);
         }
@@ -339,7 +339,7 @@ namespace PenteTests
             MainWindow main = new MainWindow();
             main.computerEnabled = true;
             main.Start_Click(null, null);
-            main.TakeAppropriateTurn();
+            main.TakeAppropriateTurn(null);
 
             Assert.AreEqual(result, main.isPlayer1Turn);
         }
@@ -350,7 +350,7 @@ namespace PenteTests
 
             MainWindow main = new MainWindow();
             main.Start_Click(null, null);
-            main.TakeAppropriateTurn();
+            main.TakeAppropriateTurn(null);
 
             Assert.AreEqual(result, main.isPlayer1Turn);
         }
