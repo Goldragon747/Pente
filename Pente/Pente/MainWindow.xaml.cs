@@ -118,6 +118,17 @@ namespace Pente
             get { return ENameBlock; }
             set { ENameBlock = value; }
         }
+        public Label PlayerCaptureLabelProp
+        {
+            get { return PlayerCaptureLabel; }
+            set { PlayerCaptureLabel = value; }
+        }
+        public Label EnemyCaptureLabelProp
+        {
+            get { return EnemyCaptureLabel; }
+            set { EnemyCaptureLabel = value; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -127,6 +138,7 @@ namespace Pente
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Visible;
+            computerEnabled = false;
         }
         // B & E
         public void PvC_Click(object sender, RoutedEventArgs e)
@@ -134,6 +146,7 @@ namespace Pente
             PlayerPanel.Visibility = Visibility.Collapsed;
             PvPNameDockPanel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Visible;
+            computerEnabled = true;
         }
         // M & B
         public void StartTimer()
@@ -153,16 +166,48 @@ namespace Pente
             } else
             {
                 turnTime--;
-                TimerLabel.Content = "Time Remaining: " + turnTime; ;
+                TimerLabel.Content = "Time Remaining: " + turnTime;
             }
-            
         }
         // M & B
+        public void TakeAppropriateTurn()
+        {
+            CheckConditions();
+            SwitchPlayer();
+            if (computerEnabled)
+            {
+                TakeComputerTurn();
+                CheckConditions();
+                SwitchPlayer();
+            }
+        }
+        public void CheckConditions()
+        {
+            for (int i = 0; i < tileSize; i++)
+            {
+                for (int j = 0; j < tileSize; j++)
+                {
+                    if (board[i, j].Background == currentPlayerBrush)
+                        CheckForCapture(i, j);
+                }
+            }
+            for (int i = 0; i < tileSize; i++)
+            {
+                for (int j = 0; j < tileSize; j++)
+                {
+                    if (board[i, j].Background == currentPlayerBrush)
+                    {
+                        CheckForSpecialConditions(i, j, 0, 0);
+                    }
+                }
+            }
+            AnnounceNewConditions();
+        }
         public void PlayerTurnExpired()
         {
             turnTime = 20;
             TimerLabel.Content = "Time Remaining: " +  turnTime;
-            SwitchPlayer();
+            TakeAppropriateTurn();
             //EndTimer();
         }
         // M & B
@@ -196,17 +241,32 @@ namespace Pente
             BoardBackground();
             InitalSetup();
         }
-        // M & B
+        // G & M
         public void InitalSetup()
         {
             int middle = ((tileSize - 1) / 2);
             SwitchButtonBackground(board[middle, middle]);
-            SwitchPlayer();
+            TakeAppropriateTurn();
             StartTimer();
             // FIX DATA BINDING ON TIMER
         }
-
-
+        // G & M
+        public void TakeComputerTurn()
+        {
+            bool validTurnTaken = false;
+            while (!validTurnTaken)
+            {
+                Random r1 = new Random();
+                Random r2 = new Random();
+                int ranX = r1.Next(tileSize);
+                int ranY = r2.Next(tileSize);
+                if(board[ranX,ranY].Background == imgBrushTile)
+                {
+                    board[ranX, ranY].Background = imgBrushWhite;
+                    validTurnTaken = true;
+                }
+            }
+        }
         public void BoardBackground()
         {
             board = new Button[tileSize,tileSize];
@@ -258,37 +318,19 @@ namespace Pente
                             if(board[i, j] == b && TournamentRules(i,j))
                             {
                                 SwitchButtonBackground(b);
-                                SwitchPlayer();
                                 turnTime = 20;
                                 TimerLabel.Content = "Time Remaining: " + turnTime;
+                                TakeAppropriateTurn();
                             }
                         }
                     }
+                    
                 } else
                 {
                     SwitchButtonBackground(b);
                     turnTime = 20;
                     TimerLabel.Content = "Time Remaining: " + turnTime;
-                    for (int i = 0; i < tileSize; i++)
-                    {
-                        for (int j = 0; j < tileSize; j++)
-                        {
-                            if (board[i, j] == b)
-                                CheckForCapture(i, j);
-                        }
-                    }
-                    for (int i = 0; i < tileSize; i++)
-                    {
-                        for (int j = 0; j < tileSize; j++)
-                        {
-                            if (board[i, j].Background == currentPlayerBrush)
-                            {
-                                CheckForSpecialConditions(i, j, 0, 0);
-                            }
-                        }
-                    }
-                    AnnounceNewConditions();
-                    SwitchPlayer();
+                    TakeAppropriateTurn();
                 }
                 //player1TurnsTakenCount = currentPlayerBrush == imgBrushBlack ? player1TurnsTakenCount++ : player1TurnsTakenCount;
             }
@@ -435,7 +477,6 @@ namespace Pente
         //  7 | 6 | 5
         public void CheckForSpecialConditions(int x, int y, int direction, int countInARow)
         {
-            
             if (countInARow == 2)
             {
                 if (isPlayer1Turn)
@@ -524,11 +565,6 @@ namespace Pente
                 }
                 stream.Close();
             }
-        }
-        // B & E
-        public void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
         }
         // B & E
         public void SaveGame_Click(object sender, RoutedEventArgs e)
