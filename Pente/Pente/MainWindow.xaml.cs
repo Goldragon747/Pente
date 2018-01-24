@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Pente
 {
@@ -29,6 +30,7 @@ namespace Pente
     public partial class MainWindow : Window
     {
         public bool isPlayer1Turn = true;
+        public int turnCount = 0;
         public bool computerEnabled = false;
         public int tileSize = 0;
         public int player1TriaCount = 0;
@@ -49,7 +51,7 @@ namespace Pente
         public ImageBrush imgBrushBlack = new ImageBrush();
         public ImageBrush imgBrushWhite = new ImageBrush();
         public ImageBrush currentPlayerBrush;
-        public Timer t = new Timer(1000);
+        public DispatcherTimer t = new DispatcherTimer();
         public OpenFileDialog openFileDialog = new OpenFileDialog();
         public Button VsComputerBtnProp
         {
@@ -136,20 +138,22 @@ namespace Pente
         // M & B
         public void StartTimer()
         {
-            t.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            t.Interval = new TimeSpan(0, 0, 1);
+            t.Tick += new EventHandler(OnTimedEvent);
            
             t.Start();
             
         }
         // M & B
-        public void OnTimedEvent(object source, ElapsedEventArgs e)
+        public void OnTimedEvent(object source, EventArgs e)
         { 
-
-            turnTime--;
-            
             if (turnTime <= 0)
             {
                 PlayerTurnExpired();
+            } else
+            {
+                turnTime--;
+                TimerLabel.Content = "Time Remaining: " + turnTime; ;
             }
             
         }
@@ -157,6 +161,7 @@ namespace Pente
         public void PlayerTurnExpired()
         {
             turnTime = 20;
+            TimerLabel.Content = "Time Remaining: " +  turnTime;
             SwitchPlayer();
             //EndTimer();
         }
@@ -197,12 +202,8 @@ namespace Pente
             int middle = ((tileSize - 1) / 2);
             SwitchButtonBackground(board[middle, middle]);
             SwitchPlayer();
-            Binding b = new Binding();
-            b.Source = turnTime;
-            TimerLabel.DataContext = b;
             StartTimer();
-            // FIX DATA BINDING ON TIMER 
-            TimerLabel.Foreground = Brushes.White;
+            // FIX DATA BINDING ON TIMER
         }
 
 
@@ -230,6 +231,7 @@ namespace Pente
             isPlayer1Turn = isPlayer1Turn ? false : true;
             TurnLabel.Content = isPlayer1Turn ? PNameBlock.Text + "'s Turn" : ENameBlock.Text + "'s Turn";
             currentPlayerBrush = isPlayer1Turn ? imgBrushBlack : imgBrushWhite;
+            turnCount++;
         }
         // G & M
         public void SwitchButtonBackground(Button sender)
@@ -243,24 +245,52 @@ namespace Pente
         public void BoardClicked(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
+            
             if (b.Background == imgBrushTile)
             {
-                SwitchButtonBackground(b);
-               
-                for (int i = 0; i < tileSize; i++)
+                
+                if (turnCount == 2)
                 {
-                    for (int j = 0; j < tileSize; j++)
+                    for (int i = 0; i < tileSize; i++)
                     {
-                        if(board[i,j] == b)
-                            CheckForCapture(i, j);
-                        if (board[i,j].Background == currentPlayerBrush)
+                        for (int j = 0; j < tileSize; j++)
                         {
-                            CheckForSpecialConditions(i, j, 0, 0);
+                            if(board[i, j] == b && TournamentRules(i,j))
+                            {
+                                SwitchButtonBackground(b);
+                                SwitchPlayer();
+                                turnTime = 20;
+                                TimerLabel.Content = "Time Remaining: " + turnTime;
+                            }
                         }
                     }
+                } else
+                {
+                    SwitchButtonBackground(b);
+                    turnTime = 20;
+                    TimerLabel.Content = "Time Remaining: " + turnTime;
+                    for (int i = 0; i < tileSize; i++)
+                    {
+                        for (int j = 0; j < tileSize; j++)
+                        {
+                            if (board[i, j] == b)
+                                CheckForCapture(i, j);
+                        }
+                    }
+                    for (int i = 0; i < tileSize; i++)
+                    {
+                        for (int j = 0; j < tileSize; j++)
+                        {
+                            if (board[i, j].Background == currentPlayerBrush)
+                            {
+                                CheckForSpecialConditions(i, j, 0, 0);
+                            }
+                        }
+                    }
+                    AnnounceNewConditions();
+                    SwitchPlayer();
                 }
-                AnnounceNewConditions();
-                SwitchPlayer();
+                //player1TurnsTakenCount = currentPlayerBrush == imgBrushBlack ? player1TurnsTakenCount++ : player1TurnsTakenCount;
             }
         }
         // G & M
@@ -302,12 +332,12 @@ namespace Pente
             {
                 Capture(x + 1, y + 1, x + 2, y + 2);
             }
-            if (CheckIfInBounds(x, y - 3) &&
-               board[x, y - 3].Background == currentPlayerBrush &&
-               board[x, y - 2].Background == enemyBrush &&
-               board[x, y - 1].Background == enemyBrush)
+            if (CheckIfInBounds(x, y + 3) &&
+               board[x, y + 3].Background == currentPlayerBrush &&
+               board[x, y + 2].Background == enemyBrush &&
+               board[x, y + 1].Background == enemyBrush)
             {
-                Capture(x, y - 1, x, y - 2);
+                Capture(x, y + 1, x, y + 2);
             }
             if (CheckIfInBounds(x - 3, y + 3) &&
                board[x - 3, y + 3].Background == currentPlayerBrush &&
@@ -328,9 +358,15 @@ namespace Pente
         private void Capture(int x1, int y1, int x2, int y2)
         {
             if (isPlayer1Turn)
+            {
                 player1Captures++;
+                PlayerCaptureLabel.Content = player1Captures;
+            }
             else
+            {
                 player2Captures++;
+                EnemyCaptureLabel.Content = player2Captures;
+            }
             board[x1, y1].Background = imgBrushTile;
             board[x2, y2].Background = imgBrushTile;
         }
@@ -338,10 +374,10 @@ namespace Pente
         // G & M
         public void AnnounceNewConditions()
         {
-            if(player1Win > 0)
+            if(player1Win > 0  || player1Captures >= 5)
             {
                 MessageBox.Show("PLAYER 1 WINS");
-            } else if(player2Win > 0)
+            } else if(player2Win > 0 || player2Captures >= 5)
             {
                 MessageBox.Show("PLAYER 2 WINS");
             } else
@@ -421,7 +457,7 @@ namespace Pente
                 else
                     player2Win++;
             }
-            if((direction == 0 || direction == 1) && CheckIfInBounds(x - 1, y - 1) && board[x - 1,y - 1].Background == currentPlayerBrush)
+            if((direction == 0 || direction == 1) && CheckIfInBounds(x - 1, y - 1) && board[x - 1, y - 1].Background == currentPlayerBrush)
             {
                 if (direction == 0)
                     countInARow = 0;
@@ -467,13 +503,13 @@ namespace Pente
             {
                 if (direction == 0)
                     countInARow = 0;
-                CheckForSpecialConditions(x - 1, y - 1, 8, ++countInARow);
+                CheckForSpecialConditions(x - 1, y, 8, ++countInARow);
             }
         }
 
         
         // B & E
-        private void LoadGame_Click(object sender, RoutedEventArgs e)
+        public void LoadGame_Click(object sender, RoutedEventArgs e)
         {
             openFileDialog.Filter = "pente files (*.pente)|*.pente";
             openFileDialog.FilterIndex = 1;
@@ -490,12 +526,12 @@ namespace Pente
             }
         }
         // B & E
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        public void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
         }
         // B & E
-        private void SaveGame_Click(object sender, RoutedEventArgs e)
+        public void SaveGame_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "pente files (*.pente)|*.pente";
@@ -506,6 +542,12 @@ namespace Pente
             formatter.Serialize(stream, null);
             stream.Close();
         }
-
+        // G & M
+        public bool TournamentRules(int x, int y)
+        {
+            int invalidMiddleSpot = (tileSize - 1) / 2;
+            return x > invalidMiddleSpot + 2 || x < invalidMiddleSpot - 2 ||
+                   y > invalidMiddleSpot + 2 || y < invalidMiddleSpot - 2;
+        }
     }
 }

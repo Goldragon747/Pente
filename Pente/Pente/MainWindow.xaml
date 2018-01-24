@@ -67,14 +67,14 @@
                 <Label Content="Captures" HorizontalContentAlignment="Center"/>
                 <DockPanel Margin="0 10 0 10">
                     <TextBlock x:Name="PNameBlock"/>
-                    <Label x:Name="PlayerCaptureLabel" Width="50" Background="Aqua"/>
+                    <Label x:Name="PlayerCaptureLabel" Content="0" Width="50" Background="Aqua"/>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock x:Name="ENameBlock" Text="Antagonist:"/>
-                    <Label x:Name="EnemyCaptureLabel" Width="50" Background="Aqua"/>
+                    <Label x:Name="EnemyCaptureLabel" Content="0" Width="50" Background="Aqua"/>
                 </DockPanel>
             </StackPanel>
-            <Label x:Name="TimerLabel" Background="Black" Margin="0 50 0 0"/>
+            <Label x:Name="TimerLabel" Background="Black" Foreground="White" Content="Time Remaining: 20" Margin="0 50 0 0"/>
             <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button x:Name="LoadBtn2" Width="150" Height="100"
                     Content="Load Game" Click="LoadGame_Click"/>
