@@ -201,6 +201,77 @@ namespace PenteTests
             bool result = true;
             Assert.AreEqual(result, main.CheckIfInBounds(1, 2));
         }
+        [TestMethod]
+        public void CheckTimeResetAfterExpired()
+        {
+            MainWindow main = new MainWindow();
+            int result = 20;
 
+            main.Start_Click(null, null);
+            main.OnTimedEvent(null, null);
+            main.PlayerTurnExpired();
+
+            Assert.AreEqual(result, main.turnTime);
+        }
+        [TestMethod]
+        public void CheckBlackPlayerTurnAfterExpired()
+        {
+            MainWindow main = new MainWindow();
+            ImageBrush result = main.imgBrushBlack;
+
+            main.Start_Click(null, null);
+            main.OnTimedEvent(null, null);
+            main.PlayerTurnExpired();
+
+            Assert.AreEqual(result, main.currentPlayerBrush);
+        }
+        [TestMethod]
+        public void CheckWhitePlayerTurnAfterExpired()
+        {
+            MainWindow main = new MainWindow();
+            ImageBrush result = main.imgBrushWhite;
+
+            main.Start_Click(null, null);
+            main.SwitchPlayer();
+            main.OnTimedEvent(null, null);
+            main.PlayerTurnExpired();
+
+            Assert.AreEqual(result, main.currentPlayerBrush);
+        }
+        [TestMethod]
+        public void CheckTimerCountdown()
+        {
+            MainWindow main = new MainWindow();
+            int result = 19;
+
+            main.Start_Click(null, null);
+            main.OnTimedEvent(null, null);
+
+            Assert.AreEqual(result, main.turnTime);
+        }
+        [TestMethod]
+        public void CheckIfTimeStop()
+        {
+            MainWindow main = new MainWindow();
+            int result = 1;
+
+            main.turnTime = 2;
+            main.Start_Click(null, null);
+            main.OnTimedEvent(null, null);
+            main.EndTimer();
+
+            Assert.AreEqual(result, main.turnTime);
+        }
+        [TestMethod]
+        public void CheckIfPlayer1CaptureLabelIncreases()
+        {
+            MainWindow main = new MainWindow();
+            int result = 1;
+
+            
+
+
+            Assert.AreEqual(result, main.turnTime);
+        }
     }
 }
