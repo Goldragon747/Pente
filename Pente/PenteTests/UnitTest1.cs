@@ -265,13 +265,14 @@ namespace PenteTests
         [TestMethod]
         public void CheckIfPlayer1CaptureLabelIncreases()
         {
+            string result = "1";
+
             MainWindow main = new MainWindow();
-            int result = 1;
+            main.Start_Click(null, null);
+            main.isPlayer1Turn = true;
+            //main.Capture(4,4,3,3);
 
-            
-
-
-            Assert.AreEqual(result, main.turnTime);
+            Assert.AreEqual(result, main.PlayerCaptureLabelProp.Content);
         }
     }
 }
