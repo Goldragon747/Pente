@@ -127,7 +127,29 @@ namespace PenteTests
             main.Start_Click(null, null);
             Assert.AreEqual(result, main.TurnLabelProp.Content);
         }
-        
+        [TestMethod]
+        public void ChangePlayerTurnLabeltoPlayer1Name()
+        {
+            string result = "Kindle's Turn";
+
+            MainWindow main = new MainWindow();
+            main.PlayerNameBoxProp.Text = "Kindle";
+            main.Start_Click(null, null);
+            main.SwitchPlayer();
+
+            Assert.AreEqual(result, main.TurnLabelProp.Content);
+        }
+        [TestMethod]
+        public void ChangePlayerTurnLabeltoPlayer2Name()
+        {
+            string result = "Mindle's Turn";
+
+            MainWindow main = new MainWindow();
+            main.EnemyNameBoxProp.Text = "Mindle";
+            main.Start_Click(null, null);
+
+            Assert.AreEqual(result, main.TurnLabelProp.Content);
+        }
         [TestMethod]
         public void SwitchButtonBackgroundToBlack()
         {
@@ -265,14 +287,72 @@ namespace PenteTests
         [TestMethod]
         public void CheckIfPlayer1CaptureLabelIncreases()
         {
-            string result = "1";
+            int result = 1;
 
             MainWindow main = new MainWindow();
             main.Start_Click(null, null);
             main.isPlayer1Turn = true;
-            //main.Capture(4,4,3,3);
+            main.Capture(4,4,3,3);
 
             Assert.AreEqual(result, main.PlayerCaptureLabelProp.Content);
+        }
+        [TestMethod]
+        public void CheckIfPlayer2CaptureLabelIncreases()
+        {
+            int result = 1;
+
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            main.isPlayer1Turn = false;
+            main.Capture(4, 4, 3, 3);
+
+            Assert.AreEqual(result, main.EnemyCaptureLabelProp.Content);
+        }
+        [TestMethod]
+        public void CheckAppropriateTurnForComputer()
+        {
+            bool result = true;
+
+            MainWindow main = new MainWindow();
+            main.computerEnabled = true;
+            main.Start_Click(null, null);
+            main.TakeAppropriateTurn(null);
+
+            Assert.AreEqual(result, main.computerEnabled);
+        }
+        [TestMethod]
+        public void CheckAppropriateTurnForPlayer2()
+        {
+            bool result = false;
+
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            main.TakeAppropriateTurn(null);
+
+            Assert.AreEqual(result, main.computerEnabled);
+        }
+        [TestMethod]
+        public void CheckComputerTakeTurnThenSwitchToPlayer1()
+        {
+            bool result = true; 
+
+            MainWindow main = new MainWindow();
+            main.computerEnabled = true;
+            main.Start_Click(null, null);
+            main.TakeAppropriateTurn(null);
+
+            Assert.AreEqual(result, main.isPlayer1Turn);
+        }
+        [TestMethod]
+        public void CheckPlayer2TakeTurnThenSwitchToPlayer1()
+        {
+            bool result = true;
+
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            main.TakeAppropriateTurn(null);
+
+            Assert.AreEqual(result, main.isPlayer1Turn);
         }
     }
 }
