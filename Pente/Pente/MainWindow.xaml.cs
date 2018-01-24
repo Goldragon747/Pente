@@ -169,40 +169,6 @@ namespace Pente
                 TimerLabel.Content = "Time Remaining: " + turnTime;
             }
         }
-        // M & B
-        public void TakeAppropriateTurn()
-        {
-            CheckConditions();
-            SwitchPlayer();
-            if (computerEnabled)
-            {
-                TakeComputerTurn();
-                CheckConditions();
-                SwitchPlayer();
-            }
-        }
-        public void CheckConditions()
-        {
-            for (int i = 0; i < tileSize; i++)
-            {
-                for (int j = 0; j < tileSize; j++)
-                {
-                    if (board[i, j].Background == currentPlayerBrush)
-                        CheckForCapture(i, j);
-                }
-            }
-            for (int i = 0; i < tileSize; i++)
-            {
-                for (int j = 0; j < tileSize; j++)
-                {
-                    if (board[i, j].Background == currentPlayerBrush)
-                    {
-                        CheckForSpecialConditions(i, j, 0, 0);
-                    }
-                }
-            }
-            AnnounceNewConditions();
-        }
         public void PlayerTurnExpired()
         {
             turnTime = 20;
@@ -256,10 +222,9 @@ namespace Pente
             bool validTurnTaken = false;
             while (!validTurnTaken)
             {
-                Random r1 = new Random();
-                Random r2 = new Random();
-                int ranX = r1.Next(tileSize);
-                int ranY = r2.Next(tileSize);
+                Random r = new Random();
+                int ranX = r.Next(tileSize);
+                int ranY = r.Next(tileSize);
                 if(board[ranX,ranY].Background == imgBrushTile)
                 {
                     board[ranX, ranY].Background = imgBrushWhite;
@@ -335,69 +300,106 @@ namespace Pente
                 //player1TurnsTakenCount = currentPlayerBrush == imgBrushBlack ? player1TurnsTakenCount++ : player1TurnsTakenCount;
             }
         }
+        // M & B
+        public void TakeAppropriateTurn()
+        {
+            CheckConditions();
+            SwitchPlayer();
+            if (computerEnabled)
+            {
+                TakeComputerTurn();
+                CheckConditions();
+                SwitchPlayer();
+            }
+        }
+        public void CheckConditions()
+        {
+            for (int i = 0; i < tileSize; i++)
+            {
+                for (int j = 0; j < tileSize; j++)
+                {
+                    if (board[i, j].Background == currentPlayerBrush)
+                        CheckForCapture(i, j);
+                }
+            }
+            for (int i = 0; i < tileSize; i++)
+            {
+                for (int j = 0; j < tileSize; j++)
+                {
+                    if (board[i, j].Background == currentPlayerBrush)
+                    {
+                        CheckForSpecialConditions(i, j, 0, 0);
+                    }
+                }
+            }
+            AnnounceNewConditions();
+        }
         // G & M
         public void CheckForCapture(int x, int y)
         {
             ImageBrush enemyBrush = isPlayer1Turn ? imgBrushWhite : imgBrushBlack;
-            if (CheckIfInBounds(x - 3, y - 3) && 
+            if(board[x,y].Background == currentPlayerBrush)
+            {
+                if (CheckIfInBounds(x - 3, y - 3) &&
                board[x - 3, y - 3].Background == currentPlayerBrush &&
                board[x - 2, y - 2].Background == enemyBrush &&
                board[x - 1, y - 1].Background == enemyBrush)
-            {
-                Capture(x - 1, y - 1, x - 2, y - 2);
-            }
-            if (CheckIfInBounds(x, y - 3) &&
-               board[x, y - 3].Background == currentPlayerBrush &&
-               board[x, y - 2].Background == enemyBrush &&
-               board[x, y - 1].Background == enemyBrush)
-            {
-                Capture(x, y - 1, x, y - 2);
-            }
-            if (CheckIfInBounds(x + 3, y - 3) &&
-               board[x + 3, y - 3].Background == currentPlayerBrush &&
-               board[x + 2, y - 2].Background == enemyBrush &&
-               board[x + 1, y - 1].Background == enemyBrush)
-            {
-                Capture(x + 1, y - 1, x + 2, y - 2);
-            }
-            if (CheckIfInBounds(x + 3, y) &&
-               board[x + 3, y].Background == currentPlayerBrush &&
-               board[x + 2, y].Background == enemyBrush &&
-               board[x + 1, y].Background == enemyBrush)
-            {
-                Capture(x + 1, y, x + 2, y);
-            }
-            if (CheckIfInBounds(x + 3, y + 3) &&
-               board[x + 3, y + 3].Background == currentPlayerBrush &&
-               board[x + 2, y + 2].Background == enemyBrush &&
-               board[x + 1, y + 1].Background == enemyBrush)
-            {
-                Capture(x + 1, y + 1, x + 2, y + 2);
-            }
-            if (CheckIfInBounds(x, y + 3) &&
-               board[x, y + 3].Background == currentPlayerBrush &&
-               board[x, y + 2].Background == enemyBrush &&
-               board[x, y + 1].Background == enemyBrush)
-            {
-                Capture(x, y + 1, x, y + 2);
-            }
-            if (CheckIfInBounds(x - 3, y + 3) &&
-               board[x - 3, y + 3].Background == currentPlayerBrush &&
-               board[x - 2, y + 2].Background == enemyBrush &&
-               board[x - 1, y + 1].Background == enemyBrush)
-            {
-                Capture(x - 1, y + 1, x - 2, y + 2);
-            }
-            if (CheckIfInBounds(x - 3, y) &&
-               board[x - 3, y].Background == currentPlayerBrush &&
-               board[x - 2, y].Background == enemyBrush &&
-               board[x - 1, y].Background == enemyBrush)
-            {
-                Capture(x - 1, y, x - 2, y);
+                {
+                    Capture(x - 1, y - 1, x - 2, y - 2);
+                }
+                if (CheckIfInBounds(x, y - 3) &&
+                   board[x, y - 3].Background == currentPlayerBrush &&
+                   board[x, y - 2].Background == enemyBrush &&
+                   board[x, y - 1].Background == enemyBrush)
+                {
+                    Capture(x, y - 1, x, y - 2);
+                }
+                if (CheckIfInBounds(x + 3, y - 3) &&
+                   board[x + 3, y - 3].Background == currentPlayerBrush &&
+                   board[x + 2, y - 2].Background == enemyBrush &&
+                   board[x + 1, y - 1].Background == enemyBrush)
+                {
+                    Capture(x + 1, y - 1, x + 2, y - 2);
+                }
+                if (CheckIfInBounds(x + 3, y) &&
+                   board[x + 3, y].Background == currentPlayerBrush &&
+                   board[x + 2, y].Background == enemyBrush &&
+                   board[x + 1, y].Background == enemyBrush)
+                {
+                    Capture(x + 1, y, x + 2, y);
+                }
+                if (CheckIfInBounds(x + 3, y + 3) &&
+                   board[x + 3, y + 3].Background == currentPlayerBrush &&
+                   board[x + 2, y + 2].Background == enemyBrush &&
+                   board[x + 1, y + 1].Background == enemyBrush)
+                {
+                    Capture(x + 1, y + 1, x + 2, y + 2);
+                }
+                if (CheckIfInBounds(x, y + 3) &&
+                   board[x, y + 3].Background == currentPlayerBrush &&
+                   board[x, y + 2].Background == enemyBrush &&
+                   board[x, y + 1].Background == enemyBrush)
+                {
+                    Capture(x, y + 1, x, y + 2);
+                }
+                if (CheckIfInBounds(x - 3, y + 3) &&
+                   board[x - 3, y + 3].Background == currentPlayerBrush &&
+                   board[x - 2, y + 2].Background == enemyBrush &&
+                   board[x - 1, y + 1].Background == enemyBrush)
+                {
+                    Capture(x - 1, y + 1, x - 2, y + 2);
+                }
+                if (CheckIfInBounds(x - 3, y) &&
+                   board[x - 3, y].Background == currentPlayerBrush &&
+                   board[x - 2, y].Background == enemyBrush &&
+                   board[x - 1, y].Background == enemyBrush)
+                {
+                    Capture(x - 1, y, x - 2, y);
+                }
             }
         }
         // G & M
-        private void Capture(int x1, int y1, int x2, int y2)
+        public void Capture(int x1, int y1, int x2, int y2)
         {
             if (isPlayer1Turn)
             {
