@@ -93,7 +93,7 @@
         <!--Game Over Screen-->
         <StackPanel x:Name="WinScreenPanel" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="Gainsboro"
                     Visibility="Collapsed">
-            <Label Background="SlateGray" Height="254" Margin="90,0,90,0"/>
+            <Label x:Name="WinLabel" Background="SlateGray" Height="254" Margin="90,0,90,0"/>
             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="RetryButton" Background="LightGray" Width="75" Height="50" Click="ResetGame_Click" Content="Retry"/>
                 <Button x:Name="LoadButton" Background="LightGray" Width="75" Height="50" Click="LoadGame_Click" Content="Load"/>

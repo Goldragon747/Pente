@@ -433,11 +433,13 @@ namespace Pente
                 ControlPanel.Visibility = Visibility.Collapsed;
                 PlayBoardBackground.Visibility = Visibility.Collapsed;
                 WinScreenPanel.Visibility = Visibility.Visible;
+                WinLabel.Content = PNameBlock.Text+" Wins!";
             } else if(player2Win > 0 || player2Captures >= 5)
             {
                 ControlPanel.Visibility = Visibility.Collapsed;
                 PlayBoardBackground.Visibility = Visibility.Collapsed;
                 WinScreenPanel.Visibility = Visibility.Visible;
+                WinLabel.Content = ENameBlock.Text + " Wins!";
             } else
             {
                 if (isPlayer1Turn)
