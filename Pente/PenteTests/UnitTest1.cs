@@ -31,6 +31,20 @@ namespace PenteTests
             Assert.IsTrue(main.PlayerPanelProp.Visibility == Visibility.Collapsed);
         }
         [TestMethod]
+        public void PvPNameDockPanelVisibilityAfterPvPClickedTest()
+        {
+            MainWindow main = new MainWindow();
+            main.PvP_Click(null, null);
+            Assert.IsTrue(main.PvPNameDockPanelProp.Visibility == Visibility.Visible);
+        }
+        [TestMethod]
+        public void PvCNameDockPanelVisibilityAfterPvPClickedTest()
+        {
+            MainWindow main = new MainWindow();
+            main.PvC_Click(null, null);
+            Assert.IsTrue(main.PvPNameDockPanelProp.Visibility == Visibility.Collapsed);
+        }
+        [TestMethod]
         public void PenteLabelVisibilityAfterStartClickedTest()
         {
             MainWindow main = new MainWindow();
@@ -88,7 +102,6 @@ namespace PenteTests
             main.PvC_Click(null, null);
             Assert.IsTrue(main.NamePanelProp.Visibility == Visibility.Visible);
         }
-
 
         ////////////////////////////BEN & LIZ//////////////////
         [TestMethod]
@@ -223,43 +236,43 @@ namespace PenteTests
             bool result = true;
             Assert.AreEqual(result, main.CheckIfInBounds(1, 2));
         }
-        [TestMethod]
-        public void CheckTimeResetAfterExpired()
-        {
-            MainWindow main = new MainWindow();
-            int result = 20;
+        ////[TestMethod]
+        //public void CheckTimeResetAfterExpired()
+        //{
+        //    MainWindow main = new MainWindow();
+        //    int result = 20;
 
-            main.Start_Click(null, null);
-            main.OnTimedEvent(null, null);
-            main.PlayerTurnExpired();
+        //    main.Start_Click(null, null);
+        //    main.OnTimedEvent(null, null);
+        //    main.PlayerTurnExpired();
 
-            Assert.AreEqual(result, main.turnTime);
-        }
-        [TestMethod]
-        public void CheckBlackPlayerTurnAfterExpired()
-        {
-            MainWindow main = new MainWindow();
-            ImageBrush result = main.imgBrushBlack;
+        //    Assert.AreEqual(result, main.turnTime);
+        //}
+        //[TestMethod]
+        //public void CheckBlackPlayerTurnAfterExpired()
+        //{
+        //    MainWindow main = new MainWindow();
+        //    ImageBrush result = main.imgBrushBlack;
 
-            main.Start_Click(null, null);
-            main.OnTimedEvent(null, null);
-            main.PlayerTurnExpired();
+        //    main.Start_Click(null, null);
+        //    main.OnTimedEvent(null, null);
+        //    main.PlayerTurnExpired();
 
-            Assert.AreEqual(result, main.currentPlayerBrush);
-        }
-        [TestMethod]
-        public void CheckWhitePlayerTurnAfterExpired()
-        {
-            MainWindow main = new MainWindow();
-            ImageBrush result = main.imgBrushWhite;
+        //    Assert.AreEqual(result, main.currentPlayerBrush);
+        //}
+        //[TestMethod]
+        //public void CheckWhitePlayerTurnAfterExpired()
+        //{
+        //    MainWindow main = new MainWindow();
+        //    ImageBrush result = main.imgBrushWhite;
 
-            main.Start_Click(null, null);
-            main.SwitchPlayer();
-            main.OnTimedEvent(null, null);
-            main.PlayerTurnExpired();
+        //    main.Start_Click(null, null);
+        //    main.SwitchPlayer();
+        //    main.OnTimedEvent(null, null);
+        //    main.PlayerTurnExpired();
 
-            Assert.AreEqual(result, main.currentPlayerBrush);
-        }
+        //    Assert.AreEqual(result, main.currentPlayerBrush);
+        //}
         [TestMethod]
         public void CheckTimerCountdown()
         {
