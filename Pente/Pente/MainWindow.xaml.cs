@@ -140,6 +140,11 @@ namespace Pente
             InitializeComponent();
         }
         // B & E
+        /// <summary>
+        /// Once clicked, all players can enter their names and grid size.
+        /// </summary>
+        /// <param name="sender">Button element object</param>
+        /// <param name="e">Button event</param>
         public void PvP_Click(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
@@ -148,6 +153,11 @@ namespace Pente
             computerEnabled = false;
         }
         // B & E
+        /// <summary>
+        /// Once clicked, player can enter their name and grid size.
+        /// </summary>
+        /// <param name="sender">Button element object</param>
+        /// <param name="e">Button event</param>
         public void PvC_Click(object sender, RoutedEventArgs e)
         {
             PlayerPanel.Visibility = Visibility.Collapsed;
@@ -194,6 +204,11 @@ namespace Pente
 
         }
         // B & E
+        /// <summary>
+        /// Once clicked, the game board is set and displayed.
+        /// </summary>
+        /// <param name="sender">Button element object</param>
+        /// <param name="e">Button event</param>
         public void Start_Click(object sender, RoutedEventArgs e)
         {
             PenteLabel.Visibility = Visibility.Collapsed;
@@ -433,11 +448,13 @@ namespace Pente
                 ControlPanel.Visibility = Visibility.Collapsed;
                 PlayBoardBackground.Visibility = Visibility.Collapsed;
                 WinScreenPanel.Visibility = Visibility.Visible;
+                WinLabel.Content = PNameBlock.Text+" Wins!";
             } else if(player2Win > 0 || player2Captures >= 5)
             {
                 ControlPanel.Visibility = Visibility.Collapsed;
                 PlayBoardBackground.Visibility = Visibility.Collapsed;
                 WinScreenPanel.Visibility = Visibility.Visible;
+                WinLabel.Content = ENameBlock.Text + " Wins!";
             } else
             {
                 if (isPlayer1Turn)
@@ -487,7 +504,6 @@ namespace Pente
         }
 
         // G & M
-
         public bool CheckIfInBounds(int x, int y)
         {
             if (x < board.GetLowerBound(0) ||
@@ -643,6 +659,11 @@ namespace Pente
             NamePanel.Visibility = Visibility.Collapsed;
         }
         // B & E
+        /// <summary>
+        /// Once clicked, a dialog box opens to load a file.
+        /// </summary>
+        /// <param name="sender">Button element object</param>
+        /// <param name="e">Button event</param>
         public void LoadGame_Click(object sender, RoutedEventArgs e)
         {
             EndTimer();
@@ -731,6 +752,11 @@ namespace Pente
         }
 
         // B & E
+        /// <summary>
+        /// Once clicked, a dialog box opens to save a file.
+        /// </summary>
+        /// <param name="sender">Button element object</param>
+        /// <param name="e">Button event</param>
         public void SaveGame_Click(object sender, RoutedEventArgs e)
         {
             EndTimer();
@@ -771,7 +797,7 @@ namespace Pente
             return x > invalidMiddleSpot + 2 || x < invalidMiddleSpot - 2 ||
                    y > invalidMiddleSpot + 2 || y < invalidMiddleSpot - 2;
         }
-
+        // G & M
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
             if(PlayBoardBackground.Visibility == Visibility.Visible)
@@ -787,7 +813,12 @@ namespace Pente
                 ResetVisibility();
             }
         }
-
+        // B & E
+        /// <summary>
+        /// Once clicked, the reset all variables and return to title screen.
+        /// </summary>
+        /// <param name="sender">Button element object</param>
+        /// <param name="e">Button event.</param>
         private void ResetGame_Click(object sender, RoutedEventArgs e)
         {
             ResetGame();
@@ -796,7 +827,12 @@ namespace Pente
             PenteLabel.Visibility = Visibility.Visible;
             PlayerPanel.Visibility = Visibility.Visible;
         }
-
+        // B & E
+        /// <summary>
+        /// Once clicked, the window will close.
+        /// </summary>
+        /// <param name="sender">Button element object</param>
+        /// <param name="e">Button event.</param>
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
