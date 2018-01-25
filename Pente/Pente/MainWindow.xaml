@@ -19,10 +19,7 @@
         <Image Source="Images/main.png" Stretch="UniformToFill" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center"></Image>
         <Label x:Name="PenteLabel" Grid.Row="0"  Grid.ColumnSpan="2"
                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="DemiBold" FontSize="48"
-               Visibility="Visible" >
-            
-            
-        </Label>
+               Visibility="Visible"/>
         <WrapPanel x:Name="PlayerPanel" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Visibility="Visible">
             <Button x:Name="LoadBtn" Width="150" Height="100"
@@ -36,7 +33,7 @@
                    Visibility="Collapsed" >
             <DockPanel>
                 <Label Foreground="White" Content="Grid Size" HorizontalContentAlignment="Left" Width="60"/>
-                <Label x:Name="GridSizeLabel" Content="{Binding Value, ElementName=GridSlider, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right"/>
+                <Label x:Name="GridSizeLabel" Content="{Binding Value, ElementName=GridSlider, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Foreground="White"/>
                 <Slider Minimum="9" Maximum="39" x:Name="GridSlider" TickFrequency="2" IsSnapToTickEnabled="True" />
             </DockPanel>
             <DockPanel Margin="0 0 0 10">
@@ -91,14 +88,16 @@
             </WrapPanel>
         </StackPanel>
         <!--Game Over Screen-->
-        <StackPanel x:Name="WinScreenPanel" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="Gainsboro"
-                    Visibility="Collapsed">
-            <Label x:Name="WinLabel" Background="SlateGray" Height="254" Margin="90,0,90,0"/>
+        <Grid x:Name="WinScreenPanel" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="Gainsboro"
+                    Visibility="Collapsed" >
+            <Image Source="Images/gameover.png" Stretch="UniformToFill"></Image>
+            <Label x:Name="WinLabel" Background="DimGray" Height="100" Margin="90,0,90,0"
+                   FontSize="48" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="RetryButton" Background="LightGray" Width="75" Height="50" Click="ResetGame_Click" Content="Retry"/>
                 <Button x:Name="LoadButton" Background="LightGray" Width="75" Height="50" Click="LoadGame_Click" Content="Load"/>
                 <Button x:Name="Exit" Background="LightGray" Width="75" Height="50" Click="Exit_Click" Content="Exit"/>
             </WrapPanel>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>
