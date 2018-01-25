@@ -13,7 +13,7 @@ namespace PenteTests
         public void PlayerPanelVisibliltyAfterPvPClickedTest()
         {
             MainWindow main = new MainWindow();
-            main.PvP_Click(null,null);
+            main.PvP_Click(null, null);
             Assert.IsTrue(main.PlayerPanelProp.Visibility == Visibility.Collapsed);
         }
         [TestMethod]
@@ -80,13 +80,37 @@ namespace PenteTests
             Assert.IsTrue(main.PNameBlockProp.Text == "Player 1:");
         }
         [TestMethod]
+        public void EnemyNameBlockTextChangedAfterStartClickedPVPDockVisibleNullInput()
+        {
+            MainWindow main = new MainWindow();
+            main.Start_Click(null, null);
+            Assert.IsTrue(main.ENameBlockProp.Text == "Player 2:");
+        }
+        [TestMethod]
+        public void EnemyNameBlockTextChangedAfterStartClickedPVPDockCollapsedNullInput()
+        {
+            MainWindow main = new MainWindow();
+            main.PvPNameDockPanelProp.Visibility = Visibility.Collapsed;
+            main.Start_Click(null, null);
+            Assert.IsTrue(main.ENameBlockProp.Text == "Computer:");
+        }
+        [TestMethod]
         public void PNameBlockTextChangedAfterStartClickedGoodInput()
         {
             MainWindow main = new MainWindow();
-            
+
             main.PlayerNameBoxProp.Text = "Gabe";
             main.Start_Click(null, null);
             Assert.IsTrue(main.PNameBlockProp.Text == main.PlayerNameBoxProp.Text);
+        }
+        [TestMethod]
+        public void ENameBlockTextChangedAfterStartClickedGoodInput()
+        {
+            MainWindow main = new MainWindow();
+
+            main.EnemyNameBoxProp.Text = "Gabe";
+            main.Start_Click(null, null);
+            Assert.IsTrue(main.ENameBlockProp.Text == main.EnemyNameBoxProp.Text);
         }
         [TestMethod]
         public void PVPNameDockPanelVisibilityAfterPvCClickedTest()
@@ -108,7 +132,7 @@ namespace PenteTests
             Visibility ExpectedResult = Visibility.Collapsed;
             MainWindow main = new MainWindow();
             main.SetSaveVariables("PenteTest.pente");
-           Assert.IsTrue(main.PenteLabelProp.Visibility == ExpectedResult);
+            Assert.IsTrue(main.PenteLabelProp.Visibility == ExpectedResult);
         }
         [TestMethod]
         public void SetSaveVariablesNamePanelVisibilityChanged()
@@ -209,7 +233,7 @@ namespace PenteTests
         [TestMethod]
         public void SetSaveVariablesTileSizeSet()
         {
-            
+
             MainWindow main = new MainWindow();
             Save s = main.SetSaveVariables("PenteTest.pente");
             int ExpectedResult = s.tileSize;
@@ -218,7 +242,7 @@ namespace PenteTests
         [TestMethod]
         public void SetSaveVariablesPlayer1TriaCountSet()
         {
-            
+
             MainWindow main = new MainWindow();
             Save s = main.SetSaveVariables("PenteTest.pente");
             int ExpectedResult = s.player1TriaCount;
@@ -332,6 +356,68 @@ namespace PenteTests
             int ExpectedResult = s.turnTime;
             Assert.IsTrue(main.turnTime == ExpectedResult);
         }
+        [TestMethod]
+        public void AnnounceNewConditionsPlayer1WinEqualTo1()
+        {
+            Visibility ExpectedResult = Visibility.Collapsed;
+            MainWindow main = new MainWindow();
+            main.player1Win = 1;
+            main.AnnounceNewConditions();
+            Assert.IsTrue(main.ControlPanelProp.Visibility == ExpectedResult);
+        }
+        [TestMethod]
+        public void AnnounceNewConditionsPlayer2WinEqualTo1()
+        {
+            Visibility ExpectedResult = Visibility.Collapsed;
+            MainWindow main = new MainWindow();
+            main.player2Win = 1;
+            main.AnnounceNewConditions();
+            Assert.IsTrue(main.ControlPanelProp.Visibility == ExpectedResult);
+        }
+        [TestMethod]
+        public void AnnounceNewConditionsNoWinnerPlayer1TessaraCountsUneven()
+        {
+            int ExpectedResult = 2;
+            MainWindow main = new MainWindow();
+            main.isPlayer1Turn = true;
+            main.tempPlayer1TesseraCount = 2;
+            main.player1TesseraCount = 1;
+            main.AnnounceNewConditions();
+            Assert.IsTrue(main.player1TesseraCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void AnnounceNewConditionsNoWinnerPlayer1TriaCountsUneven()
+        {
+            int ExpectedResult = 2;
+            MainWindow main = new MainWindow();
+            main.isPlayer1Turn = true;
+            main.tempPlayer1TriaCount = 2;
+            main.player1TriaCount = 1;
+            main.AnnounceNewConditions();
+            Assert.IsTrue(main.player1TriaCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void AnnounceNewConditionsNoWinnerPlayer2TessaraCountsUneven()
+        {
+            int ExpectedResult = 2;
+            MainWindow main = new MainWindow();
+            main.isPlayer1Turn = false;
+            main.tempPlayer2TesseraCount = 2;
+            main.player2TesseraCount = 1;
+            main.AnnounceNewConditions();
+            Assert.IsTrue(main.player2TesseraCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void AnnounceNewConditionsNoWinnerPlayer2TriaCountsUneven()
+        {
+            int ExpectedResult = 2;
+            MainWindow main = new MainWindow();
+            main.isPlayer1Turn = false;
+            main.tempPlayer2TriaCount = 2;
+            main.player2TriaCount = 1;
+            main.AnnounceNewConditions();
+            Assert.IsTrue(main.player2TriaCount == ExpectedResult);
+        }
         ////////////////////////////BEN & LIZ//////////////////
 
         public void ChangeIsPlayer1TurntoFalse()
@@ -402,7 +488,7 @@ namespace PenteTests
             main.BoardClicked(main.board[0, 0], null);
             main.SwitchButtonBackground(main.board[0, 0]);
 
-            Assert.AreEqual(result, main.board[0,0].Background);
+            Assert.AreEqual(result, main.board[0, 0].Background);
         }
         [TestMethod]
         public void SwitchButtonBackgroundToWhite()
@@ -422,7 +508,7 @@ namespace PenteTests
         {
             MainWindow main = new MainWindow();
             main.Start_Click(null, null);
-            bool result = false;            
+            bool result = false;
             Assert.AreEqual(result, main.CheckIfInBounds(-1, 2));
         }
         [TestMethod]
@@ -532,7 +618,7 @@ namespace PenteTests
             MainWindow main = new MainWindow();
             main.Start_Click(null, null);
             main.isPlayer1Turn = true;
-            main.Capture(4,4,3,3);
+            main.Capture(4, 4, 3, 3);
 
             Assert.AreEqual(result, main.PlayerCaptureLabelProp.Content);
         }
@@ -574,7 +660,7 @@ namespace PenteTests
         [TestMethod]
         public void CheckComputerTakeTurnThenSwitchToPlayer1()
         {
-            bool result = true; 
+            bool result = true;
 
             MainWindow main = new MainWindow();
             main.computerEnabled = true;
