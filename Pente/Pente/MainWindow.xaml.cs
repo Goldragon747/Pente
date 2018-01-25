@@ -430,10 +430,10 @@ namespace Pente
         {
             if(player1Win > 0  || player1Captures >= 5)
             {
-                MessageBox.Show("PLAYER 1 WINS");
+                ConsoleViewer.Content += "PLAYER 1 WINS\n";
             } else if(player2Win > 0 || player2Captures >= 5)
             {
-                MessageBox.Show("PLAYER 2 WINS");
+                ConsoleViewer.Content += "PLAYER 2 WINS\n";
             } else
             {
                 if (isPlayer1Turn)
@@ -441,12 +441,16 @@ namespace Pente
                     if(tempPlayer1TesseraCount != player1TesseraCount)
                     {
                         if(tempPlayer1TesseraCount > player1TesseraCount)
-                            MessageBox.Show("PLAYER 1 TESSERA");
+                        {
+                            ConsoleViewer.Content += "PLAYER 1 TESSERA\n";
+                        }
+
+                            
                         player1TesseraCount = tempPlayer1TesseraCount;
                     }
                     else if(tempPlayer1TriaCount > player1TriaCount)
                     {
-                        MessageBox.Show("PLAYER 1 TRIA");
+                        ConsoleViewer.Content += "PLAYER 1 TRIA\n";
                     }
                     if (tempPlayer1TriaCount != player1TriaCount)
                     {
@@ -459,12 +463,14 @@ namespace Pente
                     if (tempPlayer2TesseraCount != player2TesseraCount)
                     {
                         if (tempPlayer2TesseraCount > player2TesseraCount)
-                            MessageBox.Show("PLAYER 2 TESSERA");
+                        {
+                            ConsoleViewer.Content += "PLAYER 2 TESSERA\n";
+                        }
                         player2TesseraCount = tempPlayer2TesseraCount;
                     }
                     else if (tempPlayer2TriaCount > player2TriaCount)
                     {
-                        MessageBox.Show("PLAYER 2 TRIA");
+                        ConsoleViewer.Content += "PLAYER 2 TRIA\n";
                     }
                     if (tempPlayer2TriaCount != player2TriaCount)
                     {
