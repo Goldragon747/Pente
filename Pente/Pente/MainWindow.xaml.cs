@@ -82,7 +82,6 @@ namespace Pente
             get { return PenteLabel; }
             set { PenteLabel = value; }
         }
-
         public StackPanel ControlPanelProp
         {
             get { return ControlPanel; }
@@ -165,13 +164,20 @@ namespace Pente
             NamePanel.Visibility = Visibility.Visible;
             computerEnabled = true;
         }
-        // M & B
+        // M & G
+        /// <summary>
+        /// Starts the round timer.
+        /// </summary>
         public void StartTimer()
         {
             t.Start();
-            
         }
-        // M & B
+        // M & G
+        /// <summary>
+        /// The event called for the round timer. Increases the turn time and changes the Timer label to display how much time a player has left in the round..
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         public void OnTimedEvent(object source, EventArgs e)
         { 
             if (turnTime <= 0)
@@ -183,6 +189,10 @@ namespace Pente
                 TimerLabel.Content = "Time Remaining: " + turnTime;
             }
         }
+        //M & G
+        /// <summary>
+        /// Called when a player runs out of time. Notifies the player they have ran out of time, and then resets the time for the next player and switches to them.
+        /// </summary>
         public void PlayerTurnExpired()
         {
             MessageBox.Show("Your turn expired!");
@@ -191,11 +201,18 @@ namespace Pente
             TakeAppropriateTurn(null);
             //EndTimer();
         }
-        // M & B
+        // M & G
+        /// <summary>
+        /// Stops the round timer.
+        /// </summary>
         public void EndTimer()
         {
             t.Stop();
         }
+        //G & M
+        /// <summary>
+        /// Initializes the player and tile brushes to their respective images.
+        /// </summary>
         public void SetBrushes()
         {
             imgBrushTile.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pente;component/Images/tile4.png", UriKind.RelativeOrAbsolute));
@@ -232,6 +249,10 @@ namespace Pente
             InitalSetup();
         }
         // G & M
+        /// <summary>
+        /// Runs the setup for the game when it is first run. This includes taking the first persons turn in the middle, 
+        /// taking the computers turn (if there is a computer), and subscribing the turn timer to its event and then starting it.
+        /// </summary>
         public void InitalSetup()
         {
             int middle = ((tileSize - 1) / 2);
@@ -242,6 +263,9 @@ namespace Pente
             StartTimer();
         }
         // G & M
+        /// <summary>
+        /// Searches for a valid random tile to place a computer piece and then places it. 
+        /// </summary>
         public void TakeComputerTurn()
         {
             bool validTurnTaken = false;
@@ -259,6 +283,11 @@ namespace Pente
                 }
             }
         }
+        // B & E
+        /// <summary>
+        /// Initializes the game board of buttons based on the tile size, fills the 2D array for the board,
+        /// and adds them to children of the uniform grid.
+        /// </summary>
         public void BoardBackground()
         {
             board = new Button[tileSize,tileSize];
@@ -276,9 +305,11 @@ namespace Pente
 
             }
         }
-        
-
         // G & M
+        /// <summary>
+        /// Switches whose turn it is and updates the turn label to display to the user whose turn it currently is.
+        /// Also tracks the number of times turns have been taken.
+        /// </summary>
         public void SwitchPlayer()
         {
             isPlayer1Turn = isPlayer1Turn ? false : true;
@@ -287,6 +318,10 @@ namespace Pente
             turnCount++;
         }
         // G & M
+        /// <summary>
+        /// Switches the button's image brush where the user has clicked to their appropriate image brush based on which player's turn it currently is.
+        /// </summary>
+        /// <param name="sender">Where the user has clicked.</param>
         public void SwitchButtonBackground(Button sender)
         {
             ImageBrush imgBrush = new ImageBrush();
@@ -295,6 +330,12 @@ namespace Pente
             sender.Background = imgBrush;
         }
         // G & M
+        /// <summary>
+        /// Called when someone clicks on the game board. Allows apporopriate placing of buttons,
+        /// based on game rules and checks to see if anyone already has a peice on the button they clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void BoardClicked(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
@@ -329,6 +370,12 @@ namespace Pente
             }
         }
         // M & B
+        /// <summary>
+        /// Switches the player and decides whether a computer turn needs to be taken, and if so calls
+        /// for the computer turn to be taken and switches back to the player's turn. If a button is passed in,
+        /// the method calls a check to see if any new conditions have been formed from a player's action.
+        /// </summary>
+        /// <param name="b">The button that was clicked so that conditional checks may happen. If no button has been clicked, pass in null and no checks will be made.</param>
         public void TakeAppropriateTurn(Button b)
         {
             if(b != null)
@@ -339,6 +386,11 @@ namespace Pente
                 TakeComputerTurn();
             }
         }
+        // M & G
+        /// <summary>
+        /// Finds the button on the board array and calls the appropriate methods to see if there was a capture, tria, tessera, or win.
+        /// </summary>
+        /// <param name="b">The button in which the checks will look at</param>
         public void CheckConditions(Button b)
         {
             for (int i = 0; i < tileSize; i++)
@@ -362,6 +414,11 @@ namespace Pente
             AnnounceNewConditions();
         }
         // G & M
+        /// <summary>
+        /// Checks a location to find any and all caputures that were made at the location.
+        /// </summary>
+        /// <param name="x">The x dimension of board where the check is happening.</param>
+        /// <param name="y">The y dimension of board where the check is happening.</param>
         public void CheckForCapture(int x, int y)
         {
             ImageBrush enemyBrush = isPlayer1Turn ? imgBrushWhite : imgBrushBlack;
@@ -424,6 +481,14 @@ namespace Pente
             
         }
         // G & M
+        /// <summary>
+        /// Once a capture has been found, this method replaces the two image tiles back to their default and increases the player's
+        /// capture count who captured their enemy tile
+        /// </summary>
+        /// <param name="x1">>The x dimension of the first piece on the board where the capture is happening.</param>
+        /// <param name="y1">The y dimension of the first piece on the board where the capture is happening.</param>
+        /// <param name="x2">The x dimension of the second piece on the board where the capture is happening.</param>
+        /// <param name="y2">The y dimension of the second piece on the board where the capture is happening.</param>
         public void Capture(int x1, int y1, int x2, int y2)
         {
             if (isPlayer1Turn)
@@ -441,6 +506,10 @@ namespace Pente
         }
 
         // G & M
+        /// <summary>
+        /// Announces any new Trias, Tesseras when they have been made, and by whom they were made. If there is a victory, this method
+        /// announces the victory and takes them to the appropriate win screen.
+        /// </summary>
         public void AnnounceNewConditions()
         {
             if(player1Win > 0  || player1Captures >= 5)
@@ -504,6 +573,12 @@ namespace Pente
         }
 
         // G & M
+        /// <summary>
+        /// Checks the specified coordinates to see if they exist in the game board array.
+        /// </summary>
+        /// <param name="x">The x dimension of the board to check.</param>
+        /// <param name="y">The y dimension of the board to check.</param>
+        /// <returns>Returns true if the x and y are in the board's bounds.</returns>
         public bool CheckIfInBounds(int x, int y)
         {
             if (x < board.GetLowerBound(0) ||
@@ -513,11 +588,16 @@ namespace Pente
             return true;
         }
         // G & M
-
-        //  Direction Values for 2D array 0 = no direction
-        //  1 | 2 | 3
-        //  8 | 0 | 4
-        //  7 | 6 | 5
+        /// <summary>
+        /// Checks for any Trias, Tesseras, or wins. Adds the repective counts of any of those to be announced. Uses
+        /// recursion to move in any or all directions from a point and check whether it is a valid condition. 
+        /// </summary>
+        /// <param name="x">The current board x dimension that is being checked.</param>
+        /// <param name="y">The current board y dimension that is being checked.</param>
+        /// <param name="direction">The direction in which the check is looking. Should default to 0 if looking for every direction (when its first called outside the method).</param>
+        /// <param name="countInARow">How many times the method has recursively checked the direction. Used to see if there is a Tria, Tessera, or win in the given direction.</param>
+        /// <param name="isBlockedFirst">True if the tile before the chain of the check is blocked. Used for valid Tria and Tessera checks. Default is false when first called.</param>
+        /// <param name="isBlockedSecond">True if the tile after the end of the chain is blocked. Used for valid Tria and Tessera checks. Default is false when first called.</param>
         public void CheckForSpecialConditions(int x, int y, int direction, int countInARow,bool isBlockedFirst, bool isBlockedSecond)
         {
             if (countInARow == 2)
@@ -624,7 +704,10 @@ namespace Pente
                 CheckForSpecialConditions(x - 1, y, 8, ++countInARow, isBlockedFirst, isBlockedSecond);
             }
         }
-
+        // M & G
+        /// <summary>
+        /// Resets all variables to their defaults.
+        /// </summary>
         public void ResetGame()
         {
             isPlayer1Turn = true;
@@ -680,7 +763,12 @@ namespace Pente
             
             StartTimer();
         }
-
+        // B & E
+        /// <summary>
+        /// Creates and sets all the variables in the save class to be saved to a file.
+        /// </summary>
+        /// <param name="fileName">The file name in which the save will be saved to.</param>
+        /// <returns>The save object created.</returns>
         public Save SetSaveVariables(string fileName)
         {
             Save save = new Save();
@@ -791,6 +879,12 @@ namespace Pente
             StartTimer();
         }
         // G & M
+        /// <summary>
+        /// Marks any passed in spots two away from the center of the board as valid placement.
+        /// </summary>
+        /// <param name="x">The x dimension that is being checked if it complies with the tournament rule.</param>
+        /// <param name="y">The y dimension that is being checked if it complies with the tournament rule.</param>
+        /// <returns></returns>
         public bool TournamentRules(int x, int y)
         {
             int invalidMiddleSpot = (tileSize - 1) / 2;
@@ -798,6 +892,12 @@ namespace Pente
                    y > invalidMiddleSpot + 2 || y < invalidMiddleSpot - 2;
         }
         // G & M
+        /// <summary>
+        /// If they player is in a game, warns them when they click the back button. If they hit okay, or if they are not
+        /// in a game, returns them to the main menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
             if(PlayBoardBackground.Visibility == Visibility.Visible)
