@@ -91,7 +91,7 @@
                     Visibility="Collapsed">
             <Label Background="Aquamarine" Height="254" Margin="90,0,90,0"/>
             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <!--<Button x:Name="RetryButton" Background="PapayaWhip" Width="75" Height="50" Click="" Content="Retry"/>-->
+                <Button x:Name="RetryButton" Background="PapayaWhip" Width="75" Height="50" Click="ResetGame_Click" Content="Retry"/>
                 <!--<Button x:Name="LoadButton" Background="PapayaWhip" Width="75" Height="50" Click="" Content=""/>-->
                 <!--<Button x:Name="" Background="PapayaWhip" Width="75" Height="50" Click="" Content=""/>-->
             </WrapPanel>

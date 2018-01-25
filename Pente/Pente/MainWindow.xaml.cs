@@ -430,10 +430,14 @@ namespace Pente
         {
             if(player1Win > 0  || player1Captures >= 5)
             {
-                ConsoleViewer.Content = "PLAYER 1 WINS\n" + ConsoleViewer.Content;
+                ControlPanel.Visibility = Visibility.Collapsed;
+                PlayBoardBackground.Visibility = Visibility.Collapsed;
+                WinScreenPanel.Visibility = Visibility.Visible;
             } else if(player2Win > 0 || player2Captures >= 5)
             {
-                ConsoleViewer.Content = "PLAYER 2 WINS\n" + ConsoleViewer.Content;
+                ControlPanel.Visibility = Visibility.Collapsed;
+                PlayBoardBackground.Visibility = Visibility.Collapsed;
+                WinScreenPanel.Visibility = Visibility.Visible;
             } else
             {
                 if (isPlayer1Turn)
@@ -625,6 +629,7 @@ namespace Pente
             player2Captures = 0;
             turnTime = 20;
             GameBoardGrid.Children.Clear();
+            ConsoleViewer.Content = "";
             t.Tick -= OnTimedEvent;
         }
         public void ResetVisibility()
@@ -770,6 +775,15 @@ namespace Pente
                 ResetGame();
                 ResetVisibility();
             }
+        }
+
+        private void ResetGame_Click(object sender, RoutedEventArgs e)
+        {
+            ResetGame();
+            WinScreenPanel.Visibility = Visibility.Collapsed;
+
+            PenteLabel.Visibility = Visibility.Visible;
+            PlayerPanel.Visibility = Visibility.Visible;
         }
     }
 }
