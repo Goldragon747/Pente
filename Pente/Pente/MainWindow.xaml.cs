@@ -430,10 +430,10 @@ namespace Pente
         {
             if(player1Win > 0  || player1Captures >= 5)
             {
-                ConsoleViewer.Content += "PLAYER 1 WINS\n";
+                ConsoleViewer.Content = "PLAYER 1 WINS\n" + ConsoleViewer.Content;
             } else if(player2Win > 0 || player2Captures >= 5)
             {
-                ConsoleViewer.Content += "PLAYER 2 WINS\n";
+                ConsoleViewer.Content = "PLAYER 2 WINS\n" + ConsoleViewer.Content;
             } else
             {
                 if (isPlayer1Turn)
@@ -442,7 +442,7 @@ namespace Pente
                     {
                         if(tempPlayer1TesseraCount > player1TesseraCount)
                         {
-                            ConsoleViewer.Content += "PLAYER 1 TESSERA\n";
+                            ConsoleViewer.Content = "PLAYER 1 TESSERA\n" + ConsoleViewer.Content;
                         }
 
                             
@@ -450,7 +450,7 @@ namespace Pente
                     }
                     else if(tempPlayer1TriaCount > player1TriaCount)
                     {
-                        ConsoleViewer.Content += "PLAYER 1 TRIA\n";
+                        ConsoleViewer.Content = "PLAYER 1 TRIA\n" + ConsoleViewer.Content;
                     }
                     if (tempPlayer1TriaCount != player1TriaCount)
                     {
@@ -464,13 +464,13 @@ namespace Pente
                     {
                         if (tempPlayer2TesseraCount > player2TesseraCount)
                         {
-                            ConsoleViewer.Content += "PLAYER 2 TESSERA\n";
+                            ConsoleViewer.Content = "PLAYER 2 TESSERA\n" + ConsoleViewer.Content;
                         }
                         player2TesseraCount = tempPlayer2TesseraCount;
                     }
                     else if (tempPlayer2TriaCount > player2TriaCount)
                     {
-                        ConsoleViewer.Content += "PLAYER 2 TRIA\n";
+                        ConsoleViewer.Content = "PLAYER 2 TRIA\n" + ConsoleViewer.Content;
                     }
                     if (tempPlayer2TriaCount != player2TriaCount)
                     {
