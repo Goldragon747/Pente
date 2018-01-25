@@ -635,79 +635,87 @@ namespace Pente
         public void LoadGame_Click(object sender, RoutedEventArgs e)
         {
             EndTimer();
-            Save save = new Save();
+            
             openFileDialog.Filter = "pente files (*.pente)|*.pente";
             openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
             if (openFileDialog.ShowDialog() == true)
             {
-                IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-                if (stream.Length != 0)
-                {
-                    save = (Save)formatter.Deserialize(stream);
-                }
-                stream.Close();
-                if (PlayBoardBackground.Visibility == Visibility.Collapsed)
-                {
-                    t.Interval = new TimeSpan(0, 0, 1);
-                    t.Tick += new EventHandler(OnTimedEvent);
-                }
-                PenteLabel.Visibility = Visibility.Collapsed;
-                NamePanel.Visibility = Visibility.Collapsed;
-                PlayerPanel.Visibility = Visibility.Collapsed;
-                PvPNameDockPanel.Visibility = Visibility.Collapsed;
-                ControlPanel.Visibility = Visibility.Visible;
-                PlayBoardBackground.Visibility = Visibility.Visible;
-                GameBoardGrid.Visibility = Visibility.Visible;
-
-                isPlayer1Turn = save.isPlayer1Turn;
-                PNameBlock.Text = save.player1Name;
-                ENameBlock.Text = save.player2Name;
-                PlayerCaptureLabel.Content = save.player1Captures;
-                EnemyCaptureLabel.Content = save.player2Captures;
-                turnCount = save.turnCount;
-                computerEnabled = save.computerEnabled;
-                tileSize = save.tileSize;
-                player1TriaCount = save.player1TriaCount;
-                player1TesseraCount = save.player1TesseraCount;
-                player2TriaCount = save.player2TriaCount;
-                player2TesseraCount = save.player2TesseraCount;
-                tempPlayer1TriaCount = save.tempPlayer1TriaCount;
-                tempPlayer1TesseraCount = save.tempPlayer1TesseraCount;
-                tempPlayer2TriaCount = save.tempPlayer2TriaCount;
-                tempPlayer2TesseraCount = save.tempPlayer2TesseraCount;
-                player1Win = save.player1Win;
-                player2Win = save.player2Win;
-                player1Captures = save.player1Captures;
-                player2Captures = save.player2Captures;
-                turnTime = save.turnTime;
-                currentPlayerBrush = save.currentPlayerBrush ? imgBrushBlack : imgBrushWhite;
-                board = new Button[tileSize, tileSize];
-                GameBoardGrid.Children.Clear();
-                SetBrushes();
-                for (int i = 0; i < tileSize; i++)
-                {
-                    for (int j = 0; j < tileSize; j++)
-                    {
-                        Button b = new Button();
-                        b.BorderThickness = new Thickness(0);
-                        b.Click += BoardClicked;
-                        if (save.board[i, j] == 1)
-                            b.Background = imgBrushBlack;
-                        else if (save.board[i, j] == 2)
-                            b.Background = imgBrushWhite;
-                        else
-                            b.Background = imgBrushTile;
-                        GameBoardGrid.Children.Add(b);
-                        board[i, j] = b;
-                    }
-                }
+                SetSaveVariables(openFileDialog.FileName);
+                
             }
             
             
             StartTimer();
         }
+
+        public void SetSaveVariables(string fileName)
+        {
+            Save save = new Save();
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            if (stream.Length != 0)
+            {
+                save = (Save)formatter.Deserialize(stream);
+            }
+            stream.Close();
+            if (PlayBoardBackground.Visibility == Visibility.Collapsed)
+            {
+                t.Interval = new TimeSpan(0, 0, 1);
+                t.Tick += new EventHandler(OnTimedEvent);
+            }
+            PenteLabel.Visibility = Visibility.Collapsed;
+            NamePanel.Visibility = Visibility.Collapsed;
+            PlayerPanel.Visibility = Visibility.Collapsed;
+            PvPNameDockPanel.Visibility = Visibility.Collapsed;
+            ControlPanel.Visibility = Visibility.Visible;
+            PlayBoardBackground.Visibility = Visibility.Visible;
+            GameBoardGrid.Visibility = Visibility.Visible;
+
+            isPlayer1Turn = save.isPlayer1Turn;
+            PNameBlock.Text = save.player1Name;
+            ENameBlock.Text = save.player2Name;
+            PlayerCaptureLabel.Content = save.player1Captures;
+            EnemyCaptureLabel.Content = save.player2Captures;
+            turnCount = save.turnCount;
+            computerEnabled = save.computerEnabled;
+            tileSize = save.tileSize;
+            player1TriaCount = save.player1TriaCount;
+            player1TesseraCount = save.player1TesseraCount;
+            player2TriaCount = save.player2TriaCount;
+            player2TesseraCount = save.player2TesseraCount;
+            tempPlayer1TriaCount = save.tempPlayer1TriaCount;
+            tempPlayer1TesseraCount = save.tempPlayer1TesseraCount;
+            tempPlayer2TriaCount = save.tempPlayer2TriaCount;
+            tempPlayer2TesseraCount = save.tempPlayer2TesseraCount;
+            player1Win = save.player1Win;
+            player2Win = save.player2Win;
+            player1Captures = save.player1Captures;
+            player2Captures = save.player2Captures;
+            turnTime = save.turnTime;
+            currentPlayerBrush = save.currentPlayerBrush ? imgBrushBlack : imgBrushWhite;
+            board = new Button[tileSize, tileSize];
+            GameBoardGrid.Children.Clear();
+            SetBrushes();
+            for (int i = 0; i < tileSize; i++)
+            {
+                for (int j = 0; j < tileSize; j++)
+                {
+                    Button b = new Button();
+                    b.BorderThickness = new Thickness(0);
+                    b.Click += BoardClicked;
+                    if (save.board[j, i] == 1)
+                        b.Background = imgBrushBlack;
+                    else if (save.board[j, i] == 2)
+                        b.Background = imgBrushWhite;
+                    else
+                        b.Background = imgBrushTile;
+                    GameBoardGrid.Children.Add(b);
+                    board[j, i] = b;
+                }
+            }
+        }
+
         // B & E
         public void SaveGame_Click(object sender, RoutedEventArgs e)
         {
