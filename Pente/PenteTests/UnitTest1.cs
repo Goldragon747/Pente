@@ -110,6 +110,228 @@ namespace PenteTests
             main.SetSaveVariables("PenteTest.pente");
            Assert.IsTrue(main.PenteLabelProp.Visibility == ExpectedResult);
         }
+        [TestMethod]
+        public void SetSaveVariablesNamePanelVisibilityChanged()
+        {
+            Visibility ExpectedResult = Visibility.Collapsed;
+            MainWindow main = new MainWindow();
+            main.SetSaveVariables("PenteTest.pente");
+            Assert.IsTrue(main.NamePanelProp.Visibility == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayerPanelVisibilityChanged()
+        {
+            Visibility ExpectedResult = Visibility.Collapsed;
+            MainWindow main = new MainWindow();
+            main.SetSaveVariables("PenteTest.pente");
+            Assert.IsTrue(main.PlayerPanelProp.Visibility == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPvPNameDockPanelVisibilityChanged()
+        {
+            Visibility ExpectedResult = Visibility.Collapsed;
+            MainWindow main = new MainWindow();
+            main.SetSaveVariables("PenteTest.pente");
+            Assert.IsTrue(main.PvPNameDockPanelProp.Visibility == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesControlPanelVisibilityChanged()
+        {
+            Visibility ExpectedResult = Visibility.Visible;
+            MainWindow main = new MainWindow();
+            main.SetSaveVariables("PenteTest.pente");
+            Assert.IsTrue(main.ControlPanelProp.Visibility == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesGameBoardGridVisibilityChanged()
+        {
+            Visibility ExpectedResult = Visibility.Visible;
+            MainWindow main = new MainWindow();
+            main.SetSaveVariables("PenteTest.pente");
+            Assert.IsTrue(main.GameBoardGridProp.Visibility == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesisPlayer1TurnSet()
+        {
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            bool ExpectedResult = s.isPlayer1Turn;
+            Assert.IsTrue(main.isPlayer1Turn == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesComputerEnabledSet()
+        {
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            bool ExpectedResult = s.computerEnabled;
+            Assert.IsTrue(main.computerEnabled == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPNameBlockSet()
+        {
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            string ExpectedResult = s.player1Name;
+            Assert.IsTrue(main.PNameBlockProp.Text == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesENameBlockSet()
+        {
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            string ExpectedResult = s.player2Name;
+            Assert.IsTrue(main.ENameBlockProp.Text == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayerCaptureLabelSet()
+        {
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player1Captures;
+            Assert.IsTrue((int)main.PlayerCaptureLabelProp.Content == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesEnemyCaptureLabelSet()
+        {
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player2Captures;
+            Assert.IsTrue((int)main.EnemyCaptureLabelProp.Content == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesTurnCountSet()
+        {
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.turnCount;
+            Assert.IsTrue((int)main.turnCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesTileSizeSet()
+        {
+            
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.tileSize;
+            Assert.IsTrue((int)main.tileSize == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayer1TriaCountSet()
+        {
+            
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player1TriaCount;
+            Assert.IsTrue(main.player1TriaCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayer1TesseraCountSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player1TesseraCount;
+            Assert.IsTrue(main.player1TesseraCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayer2TriaCountSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player2TriaCount;
+            Assert.IsTrue(main.player2TriaCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayer2TesseraCountSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player2TesseraCount;
+            Assert.IsTrue(main.player2TesseraCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesTempPlayer1TriaCountSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.tempPlayer1TriaCount;
+            Assert.IsTrue(main.tempPlayer1TriaCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesTempPlayer1TesseraCountSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.tempPlayer1TesseraCount;
+            Assert.IsTrue(main.tempPlayer1TesseraCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesTempPlayer2TriaCountSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.tempPlayer2TriaCount;
+            Assert.IsTrue(main.tempPlayer2TriaCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesTempPlayer2TesseraCountSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.tempPlayer2TesseraCount;
+            Assert.IsTrue(main.tempPlayer1TesseraCount == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayer1WinSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player1Win;
+            Assert.IsTrue(main.player1Win == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayer2WinSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player2Win;
+            Assert.IsTrue(main.player2Win == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayer1CapturesSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player1Captures;
+            Assert.IsTrue(main.player1Captures == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesPlayer2CapturesSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.player2Captures;
+            Assert.IsTrue(main.player2Captures == ExpectedResult);
+        }
+        [TestMethod]
+        public void SetSaveVariablesTurnTimeSet()
+        {
+
+            MainWindow main = new MainWindow();
+            Save s = main.SetSaveVariables("PenteTest.pente");
+            int ExpectedResult = s.turnTime;
+            Assert.IsTrue(main.turnTime == ExpectedResult);
+        }
         ////////////////////////////BEN & LIZ//////////////////
 
         public void ChangeIsPlayer1TurntoFalse()

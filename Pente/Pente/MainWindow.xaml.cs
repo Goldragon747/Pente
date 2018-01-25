@@ -660,7 +660,7 @@ namespace Pente
             StartTimer();
         }
 
-        public void SetSaveVariables(string fileName)
+        public Save SetSaveVariables(string fileName)
         {
             Save save = new Save();
             IFormatter formatter = new BinaryFormatter();
@@ -675,6 +675,7 @@ namespace Pente
                 t.Interval = new TimeSpan(0, 0, 1);
                 t.Tick += new EventHandler(OnTimedEvent);
             }
+
             PenteLabel.Visibility = Visibility.Collapsed;
             NamePanel.Visibility = Visibility.Collapsed;
             PlayerPanel.Visibility = Visibility.Collapsed;
@@ -684,12 +685,12 @@ namespace Pente
             GameBoardGrid.Visibility = Visibility.Visible;
 
             isPlayer1Turn = save.isPlayer1Turn;
+            computerEnabled = save.computerEnabled;
             PNameBlock.Text = save.player1Name;
             ENameBlock.Text = save.player2Name;
             PlayerCaptureLabel.Content = save.player1Captures;
             EnemyCaptureLabel.Content = save.player2Captures;
             turnCount = save.turnCount;
-            computerEnabled = save.computerEnabled;
             tileSize = save.tileSize;
             player1TriaCount = save.player1TriaCount;
             player1TesseraCount = save.player1TesseraCount;
@@ -704,6 +705,7 @@ namespace Pente
             player1Captures = save.player1Captures;
             player2Captures = save.player2Captures;
             turnTime = save.turnTime;
+
             currentPlayerBrush = save.currentPlayerBrush ? imgBrushBlack : imgBrushWhite;
             board = new Button[tileSize, tileSize];
             GameBoardGrid.Children.Clear();
@@ -725,6 +727,7 @@ namespace Pente
                     board[j, i] = b;
                 }
             }
+            return save;
         }
 
         // B & E
