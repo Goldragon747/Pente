@@ -12,13 +12,17 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="2.5*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <!--Menu-->
-        <Label x:Name="PenteLabel" Grid.Row="0"  Grid.ColumnSpan="2" Content="Pente" Background="Cyan"
+        <Image Source="Images/main.png" Stretch="UniformToFill" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center"></Image>
+        <Label x:Name="PenteLabel" Grid.Row="0"  Grid.ColumnSpan="2"
                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="DemiBold" FontSize="48"
-               Visibility="Visible"/>
+               Visibility="Visible" >
+            
+            
+        </Label>
         <WrapPanel x:Name="PlayerPanel" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Visibility="Visible">
             <Button x:Name="LoadBtn" Width="150" Height="100"
@@ -31,16 +35,16 @@
         <StackPanel x:Name="NamePanel" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Visibility="Collapsed" >
             <DockPanel>
-                <Label Content="Grid Size" HorizontalContentAlignment="Left" Width="60"/>
+                <Label Foreground="White" Content="Grid Size" HorizontalContentAlignment="Left" Width="60"/>
                 <Label x:Name="GridSizeLabel" Content="{Binding Value, ElementName=GridSlider, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right"/>
                 <Slider Minimum="9" Maximum="39" x:Name="GridSlider" TickFrequency="2" IsSnapToTickEnabled="True" />
             </DockPanel>
             <DockPanel Margin="0 0 0 10">
-                <TextBlock Text="Player 1's Name: "/>
+                <TextBlock Foreground="White" Text="Player 1's Name: "/>
                 <TextBox x:Name="PlayerNameBox" Width="100"/>
             </DockPanel>
             <DockPanel x:Name="PvPNameDockPanel" Margin="0 0 0 10">
-                <TextBlock x:Name="EnemyNameBlock" Text="Player 2's Name: "/>
+                <TextBlock x:Name="EnemyNameBlock" Foreground="White" Text="Player 2's Name: "/>
                 <TextBox x:Name="EnemyNameBox" Width="100"/>
             </DockPanel>
             <Button x:Name="StartBtn" Content="Start Game" Click="Start_Click"/>
@@ -89,11 +93,11 @@
         <!--Game Over Screen-->
         <StackPanel x:Name="WinScreenPanel" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="Gainsboro"
                     Visibility="Collapsed">
-            <Label Background="Aquamarine" Height="254" Margin="90,0,90,0"/>
+            <Label Background="SlateGray" Height="254" Margin="90,0,90,0"/>
             <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="RetryButton" Background="PapayaWhip" Width="75" Height="50" Click="ResetGame_Click" Content="Retry"/>
-                <!--<Button x:Name="LoadButton" Background="PapayaWhip" Width="75" Height="50" Click="" Content=""/>-->
-                <!--<Button x:Name="" Background="PapayaWhip" Width="75" Height="50" Click="" Content=""/>-->
+                <Button x:Name="RetryButton" Background="LightGray" Width="75" Height="50" Click="ResetGame_Click" Content="Retry"/>
+                <Button x:Name="LoadButton" Background="LightGray" Width="75" Height="50" Click="LoadGame_Click" Content="Load"/>
+                <Button x:Name="Exit" Background="LightGray" Width="75" Height="50" Click="Exit_Click" Content="Exit"/>
             </WrapPanel>
         </StackPanel>
     </Grid>

@@ -793,5 +793,10 @@ namespace Pente
             PenteLabel.Visibility = Visibility.Visible;
             PlayerPanel.Visibility = Visibility.Visible;
         }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }
