@@ -61,10 +61,11 @@
             </Border>
         </Grid>
         <!--Control Panel-->
-        <StackPanel x:Name="ControlPanel" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="Cornsilk" Visibility="Collapsed">
+        <StackPanel x:Name="ControlPanel" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="Cornsilk" 
+                    Visibility="Collapsed">
             <Label x:Name="TurnLabel" Background="Cyan" Height="50"
                    Content="Player Turn"/>
-            <Label x:Name="ConsoleLabel" Background="DarkCyan" Height="50"/>
+            <ScrollViewer x:Name="ConsoleViewer" Background="DimGray" Height="75"/>
             <StackPanel x:Name="CaptureStackPanel">
                 <Label Content="Captures" HorizontalContentAlignment="Center"/>
                 <DockPanel Margin="0 10 0 10">
@@ -83,6 +84,14 @@
                 <Button x:Name="SaveBtn" Width="150" Height="100"
                     Content="Save Game" Click="SaveGame_Click"/>
                 <Button x:Name="BackBtn2" Width="84" Content="Back" Click="BackBtn_Click"/>
+            </WrapPanel>
+        </StackPanel>
+        <!--Game Over Screen-->
+        <StackPanel x:Name="WinScreenPanel" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="Gainsboro"
+                    Visibility="Collapsed">
+            <Label Background="Aquamarine" Height="254" Margin="90,0,90,0"/>
+            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Background="PapayaWhip" Width="75" Height="50"/>
             </WrapPanel>
         </StackPanel>
     </Grid>
