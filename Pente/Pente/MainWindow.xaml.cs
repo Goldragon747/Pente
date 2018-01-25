@@ -430,10 +430,14 @@ namespace Pente
         {
             if(player1Win > 0  || player1Captures >= 5)
             {
-                MessageBox.Show("PLAYER 1 WINS");
+                ControlPanel.Visibility = Visibility.Collapsed;
+                PlayBoardBackground.Visibility = Visibility.Collapsed;
+                WinScreenPanel.Visibility = Visibility.Visible;
             } else if(player2Win > 0 || player2Captures >= 5)
             {
-                MessageBox.Show("PLAYER 2 WINS");
+                ControlPanel.Visibility = Visibility.Collapsed;
+                PlayBoardBackground.Visibility = Visibility.Collapsed;
+                WinScreenPanel.Visibility = Visibility.Visible;
             } else
             {
                 if (isPlayer1Turn)
@@ -441,12 +445,16 @@ namespace Pente
                     if(tempPlayer1TesseraCount != player1TesseraCount)
                     {
                         if(tempPlayer1TesseraCount > player1TesseraCount)
-                            MessageBox.Show("PLAYER 1 TESSERA");
+                        {
+                            ConsoleViewer.Content = "PLAYER 1 TESSERA\n" + ConsoleViewer.Content;
+                        }
+
+                            
                         player1TesseraCount = tempPlayer1TesseraCount;
                     }
                     else if(tempPlayer1TriaCount > player1TriaCount)
                     {
-                        MessageBox.Show("PLAYER 1 TRIA");
+                        ConsoleViewer.Content = "PLAYER 1 TRIA\n" + ConsoleViewer.Content;
                     }
                     if (tempPlayer1TriaCount != player1TriaCount)
                     {
@@ -459,12 +467,14 @@ namespace Pente
                     if (tempPlayer2TesseraCount != player2TesseraCount)
                     {
                         if (tempPlayer2TesseraCount > player2TesseraCount)
-                            MessageBox.Show("PLAYER 2 TESSERA");
+                        {
+                            ConsoleViewer.Content = "PLAYER 2 TESSERA\n" + ConsoleViewer.Content;
+                        }
                         player2TesseraCount = tempPlayer2TesseraCount;
                     }
                     else if (tempPlayer2TriaCount > player2TriaCount)
                     {
-                        MessageBox.Show("PLAYER 2 TRIA");
+                        ConsoleViewer.Content = "PLAYER 2 TRIA\n" + ConsoleViewer.Content;
                     }
                     if (tempPlayer2TriaCount != player2TriaCount)
                     {
@@ -619,6 +629,7 @@ namespace Pente
             player2Captures = 0;
             turnTime = 20;
             GameBoardGrid.Children.Clear();
+            ConsoleViewer.Content = "";
             t.Tick -= OnTimedEvent;
         }
         public void ResetVisibility()
@@ -772,6 +783,15 @@ namespace Pente
                 ResetGame();
                 ResetVisibility();
             }
+        }
+
+        private void ResetGame_Click(object sender, RoutedEventArgs e)
+        {
+            ResetGame();
+            WinScreenPanel.Visibility = Visibility.Collapsed;
+
+            PenteLabel.Visibility = Visibility.Visible;
+            PlayerPanel.Visibility = Visibility.Visible;
         }
     }
 }
